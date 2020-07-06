@@ -1,0 +1,7 @@
+# NOTE: considered to be constants due to high precedence
+
+SFT_ARTIFACT_TARGET_PATH: '/tmp/sft-artifact.tar.gz'
+SFT_BIN_PATH: '/usr/local/bin/sftd'
+
+# NOTE: currently hardcoded in source, but will soon be configurable
+SFTD_PORT: 8585

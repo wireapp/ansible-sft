@@ -1,0 +1,20 @@
+[Unit]
+Description=Running service: SFT server
+
+After=nginx.service
+Requires=nginx.service
+
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+
+ExecStart={{ SFT_BIN_PATH }} \
+            -I '{{ sft_local_ip }}' \
+            -A '{{ sft_public_ip }}' \
+            {% if sft_uuid is defined %}-u '{{ sft_uuid }}' \{% endif -%}
+            -s
+
+
+[Install]
+WantedBy=multi-user.target
