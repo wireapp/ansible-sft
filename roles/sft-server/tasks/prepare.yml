@@ -1,0 +1,10 @@
+- name: creating SFT group
+  group:
+    name: 'sft'
+
+- name: creating SFT user
+  user:
+    name: 'sft'
+    group: 'sft'
+    system: yes
+    create_home: no
