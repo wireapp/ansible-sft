@@ -4,4 +4,8 @@ SFT_ARTIFACT_TARGET_PATH: '/tmp/sft-artifact.tar.gz'
 SFT_BIN_PATH: '/usr/local/bin/sftd'
 
 # NOTE: currently hardcoded in source, but will soon be configurable
-SFTD_PORT: 8585
+SFTD_SIGNALING_PORT: 8585
+SFTD_METRICS_PORT: 49090
+
+SFTD_USER: 'sft'
+SFTD_GROUP: 'sft'
