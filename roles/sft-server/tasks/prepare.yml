@@ -1,10 +1,10 @@
 - name: creating SFT group
   group:
-    name: 'sft'
+    name: "{{ SFTD_GROUP }}"
 
 - name: creating SFT user
   user:
-    name: 'sft'
-    group: 'sft'
+    name: "{{ SFTD_USER }}"
+    group: "{{ SFTD_GROUP }}"
     system: yes
     create_home: no
