@@ -1,0 +1,12 @@
+[Coredump]
+# NOTE: core dump files end up in /var/lib/systemd/coredump/; use `coredumpctl` to interact
+# docs: https://www.freedesktop.org/software/systemd/man/coredump.conf.html#
+
+Storage=external
+
+ProcessSizeMax={{ sft_coredump_max_file_size }}
+ExternalSizeMax={{ sft_coredump_max_file_size }}
+
+Compress=yes
+
+KeepFree=20%

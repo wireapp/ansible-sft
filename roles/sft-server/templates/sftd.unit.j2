@@ -11,6 +11,10 @@ Wants=network-online.target
 TimeoutStartSec=0
 Restart=always
 
+# maximum size of core files (bytes)
+LimitCORE=infinity
+LimitCORESoft=0
+
 User={{ SFTD_USER }}
 Group={{ SFTD_GROUP }}
 

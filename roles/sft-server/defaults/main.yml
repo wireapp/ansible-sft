@@ -43,3 +43,7 @@ sft_public_ip: >-
 # 3.
 #sft_artifact_file_url: URL
 #sft_artifact_checksum: URL or values
+
+sft_coredump_enabled: true
+# NOTE: set reasonable high, while in reality still being limited by total memory size; set to 0 in order to disable
+sft_coredump_max_file_size: '4G'

@@ -1,0 +1,33 @@
+- name: creating directory for cordump configuation
+  file:
+    state: directory
+    path: '/etc/systemd/coredump.conf.d'
+    owner: root
+    group: root
+    mode: '755'
+
+- name: configuring coredump
+  template:
+    src: 'coredump.conf.j2'
+    dest: '/etc/systemd/coredump.conf.d/custom.conf'
+    owner: root
+    group: root
+    mode: '644'
+  when:
+    - sft_coredump_enabled | bool
+
+
+- name: configuring nginx
+  copy:
+    src: nginx.conf
+    dest: "{{ NGINX_CONF_PATH }}"
+    owner: root
+    group: root
+    mode: '644'
+  notify:
+    - configuration changed
+
+- name: deleting nginx default site
+  file:
+    path: "{{ NGINX_CONF_DIR }}/default.conf"
+    state: absent
