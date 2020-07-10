@@ -9,3 +9,8 @@ SFTD_METRICS_PORT: 49090
 
 SFTD_USER: 'sft'
 SFTD_GROUP: 'sft'
+
+
+
+NGINX_CONF_PATH: '/etc/nginx/nginx.conf'
+NGINX_CONF_DIR: '/etc/nginx/conf.d'

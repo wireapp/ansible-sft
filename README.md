@@ -2,6 +2,11 @@ SFT - Selective Forwarding TURN
 ===============================
 
 
+### Prerequisites
+
+* Ubuntu 18.04
+
+
 ### Terminology
 
 __Server:__ an instance hosting the SFT service as well as a local proxy in front of it.
