@@ -1,0 +1,30 @@
+- name: verifying if all required variables for SFT are set
+  assert:
+    that:
+      - sft_fqdn is defined
+    msg: '[ERR] Variable not set: sft_fqdn'
+
+- name: verifying if all required variables for certbot are set
+  when:
+    - certbot_enabled | bool
+  assert:
+    that:
+      - certbot_account_email is defined
+    msg: '[ERR] Variable not set: certbot_account_email'
+
+- name: verifying if all required TLS variables are set
+  when:
+    - not (certbot_enabled | bool)
+  assert:
+    that:
+      - tls_key_path is defined
+      - tls_cert_path is defined
+    msg: '[ERR] Variable(s) not set: tls_cert_path & tls_key_path'
+
+- name: verifying if all required variables for metrics are set
+  when:
+    - metrics_enabled | bool
+  assert:
+    that:
+      - metrics_fqdn is defined
+    msg: '[ERR] Variable not set: metrics_fqdn'

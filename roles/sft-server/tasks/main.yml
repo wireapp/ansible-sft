@@ -1,3 +1,6 @@
+- name: verifying requirements
+  import_tasks: assert.yml
+
 - name: preparing service
   import_tasks: prepare.yml
 
@@ -6,3 +9,12 @@
 
 - name: configuring service
   import_tasks: configure.yml
+
+- name: starting service
+  import_tasks: start.yml
+
+- name: exposing service
+  import_tasks: ingress.yml
+
+- name: testing service
+  import_tasks: test.yml

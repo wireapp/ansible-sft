@@ -1,13 +1,16 @@
-# NOTE: can be overridden by inventory
+# NOTE: variables set here can be overridden when invoking the role
 
 service_name: "{{ role_name }}"
 
 
+
+
 sft_local_ip: '127.0.0.1'
+
 # NOTE: filters out private networks as of https://tools.ietf.org/html/rfc1918#section-3
 #       override to mitigate this behaviour entirely
-# NOTE: there is no excluding filter, just including ones, hence such cumbersome approach
-# docs: https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters_ipaddr.html
+# NOTE: there is no excluding filter, just including ones, hence such cumbersome syntax
+# DOCS: https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters_ipaddr.html
 sft_public_ip: >-
     {{
         ansible_facts.all_ipv4_addresses
@@ -27,23 +30,56 @@ sft_public_ip: >-
     }}
 
 
-# NOTE: following variables will be tested for undefined
-
-#sft_uuid:
-
-
-# NOTE: Three different ways to define which version is going to be installed.
-#       All of them are mutual exclusive.
-# 1.
-#sft_artifact_file_path: local path in filesystem
-#
-# 2. (requires the checksum URL to follow certain pattern
-#sft_version: string of a specific release version)
-#
-# 3.
-#sft_artifact_file_url: URL
-#sft_artifact_checksum: URL or values
-
 sft_coredump_enabled: true
 # NOTE: set reasonable high, while in reality still being limited by total memory size; set to 0 in order to disable
 sft_coredump_max_file_size: '4G'
+
+
+# INFO: The following variables will be tested for existence
+
+# sft_uuid: String
+
+# There are three different ways to define which version is going to be installed.
+# All of them are mutual exclusive.
+# 1.
+# sft_artifact_file_path: local path in filesystem
+#
+# 2. (requires the checksum URL to follow certain pattern
+# sft_version: string of a specific release version)
+#
+# 3.
+# sft_artifact_file_url: URL
+# sft_artifact_checksum: URL or values
+
+
+# INFO: The following variables are mandatory
+
+# sft_fqdn: String
+
+
+
+
+metrics_enabled: false
+
+# INFO: The following variables are mandatory
+
+# metrics_fqdn: String
+
+
+
+
+# NOTE: either certbot is enabled or TLS files key and cert are provided
+
+certbot_enabled: true   # implies automated renewal
+certbot_in_test_mode: true
+
+
+# INFO: The following variables will be tested for existence
+
+# tls_key_path: String
+# tls_cert_path: String
+
+
+# INFO: The following variables are mandatory
+
+# certbot_account_email: String

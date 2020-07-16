@@ -42,6 +42,7 @@
     src: "{{ unpacked.dest }}{{ unpacked.files[0] }}"
     remote_src: yes
     dest: "{{ SFT_BIN_PATH }}"
+  register: binary_sftd
 
 - name: ensuring executable state
   file:
@@ -50,8 +51,6 @@
     owner: "{{ SFTD_USER }}"
     group: "{{ SFTD_GROUP }}"
     mode: '550'
-  notify:
-    - configuration changed
 
 - name: copying systemd service unit
   template:
@@ -60,9 +59,7 @@
     owner: root
     group: root
     mode: '644'
-  register: unit
-  notify:
-    - configuration changed
+  register: unit_sftd
 
 
 - name: installing core-dump components
@@ -75,15 +72,14 @@
     - sft_coredump_enabled | bool
 
 
-
 # docs: https://www.nginx.com/resources/wiki/start/topics/tutorials/install/
-- name: installing key for nginx's apt repositpry
+- name: adding key for nginx's apt repositpry
   apt_key:
     id: 'ABF5BD827BD9BF62'
     url: "https://nginx.org/keys/nginx_signing.key"
     state: present
 
-- name: installing nginx's apt repositpry
+- name: adding nginx's apt repositpry
   apt_repository:
     repo: "deb https://nginx.org/packages/{{ ansible_facts.distribution | lower }}/ {{ ansible_distribution_release | lower }} nginx"
     state: present
@@ -94,3 +90,27 @@
     state: present
     name:
       - nginx
+
+
+- name: adding certbot repository
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
+    state: present
+    update_cache: yes
+  when:
+    - certbot_enabled
+
+- name: installing certbot
+  apt:
+    state: present
+    name:
+      - certbot
+  when:
+    - certbot_enabled
+
+
+- name: installing ufw
+  apt:
+    state: present
+    name:
+      - ufw

@@ -1,2 +1,5 @@
-- name: configuration changed
-  include_tasks: ./../tasks/start.yml
+- name: nginx configuration changed
+  systemd:
+    name: 'nginx'
+    enabled: yes
+    state: reloaded

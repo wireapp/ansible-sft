@@ -16,18 +16,114 @@
   when:
     - sft_coredump_enabled | bool
 
-
+# NOTE: just to bring global configuration under control; based on and almost
+#       identical to upstream v1.18.0
+#
 - name: configuring nginx
   copy:
-    src: nginx.conf
+    src: 'nginx.conf'
     dest: "{{ NGINX_CONF_PATH }}"
     owner: root
     group: root
     mode: '644'
   notify:
-    - configuration changed
+    - nginx configuration changed
 
 - name: deleting nginx default site
   file:
     path: "{{ NGINX_CONF_DIR }}/default.conf"
     state: absent
+  notify:
+    - nginx configuration changed
+
+
+- name: creating certbot webroot path
+  file:
+    state: directory
+    path: "{{ CERTBOT_WEBROOT_PATH }}"
+    owner: root
+    group: root
+    mode: '755'
+  when: certbot_enabled | bool
+
+- name: creating certbot sub-directories
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: root
+    group: root
+    mode: '755'
+  when: certbot_enabled | bool
+  loop:
+    - "{{ CERTBOT_LIVE_PATH }}"
+    - "{{ CERTBOT_ARCHIVE_PATH }}"
+
+- name: configuring certbot
+  template:
+    src: 'certbot.ini.j2'
+    dest: "{{ CERTBOT_CONF_PATH }}/cli.ini"
+    owner: root
+    group: root
+    mode: '644'
+  when: certbot_enabled | bool
+
+
+# TODO: refactor the whole certbot initial cert obtaining process into
+# a systemd oneshot unit file, including:
+#   * DNS verification
+#   * SFT nginx config enabling
+#   * other condition checks, e.g. does the cert already exist
+#
+- name: configuring vhost for certbot HTTP challenge
+  template:
+    src: 'vhost_certbot-http-challenge.conf.j2'
+    dest: "{{ NGINX_CONF_DIR }}/certbot-http-challenge.conf"
+    owner: root
+    group: root
+    mode: '644'
+  register: ingress_certbot
+  when:
+    - certbot_enabled | bool
+
+- name: reloading nginx to make webroot path available
+  systemd:
+    name: 'nginx'
+    enabled: yes
+    state: reloaded
+  when:
+    - certbot_enabled | bool
+    - ingress_certbot.changed
+
+- name: checking whether certificate was already initially obtained by certbot
+  stat:
+    path: "{{ CERTBOT_CONF_PATH }}/live/{{ sft_fqdn }}"
+  register: cert_location
+  when: certbot_enabled | bool
+
+- name: "obtaining a certificate for '{{ sft_fqdn }}' with certbot"
+  when:
+    - certbot_enabled | bool
+    - not cert_location.stat.exists
+  shell:
+    cmd:
+      certbot certonly
+        --domains {{ sft_fqdn }}
+        --agree-tos
+        {% if certbot_in_test_mode %}--staging{% endif %}
+        --preferred-challenges http
+        --rsa-key-size 4096
+        --authenticator webroot
+        --webroot-path /usr/share/nginx/certbot
+        --cert-path {{ CERTBOT_CERT }}
+        --key-path {{ CERTBOT_PRIVKEY }}
+        --chain-path {{ CERTBOT_CHAIN }}
+        --fullchain-path {{ CERTBOT_FULLCHAIN }}
+
+
+- name: generating DH parameters for SFT nginx vhost
+  openssl_dhparam:
+    path: "{{ NGINX_DHPARAMS_PATH }}"
+    size: 4096
+    owner: root
+    group: root
+    mode: '644'
