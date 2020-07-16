@@ -1,0 +1,5 @@
+email = {{ certbot_account_email }}
+
+[renewalparams]
+post-hook = systemctl reload nginx
+no-directory-hooks = True

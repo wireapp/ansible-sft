@@ -1,0 +1,61 @@
+- name: denying all ingress
+  ufw:
+    policy: deny
+    direction: incoming
+    state: enabled
+    logging: off
+
+- name: allowing all egress
+  ufw:
+    policy: allow
+    direction: outgoing
+    state: enabled
+    logging: off
+
+- name: allowing HTTP(S) ingress
+  ufw:
+    rule: allow
+    proto: tcp
+    to_port: "{{ item }}"
+    state: reloaded
+  loop:
+    - '80'
+    - '443'
+
+- name: allowing SSH ingress
+  ufw:
+    rule: allow
+    proto: tcp
+    to_port: "{{ item }}"
+    state: reloaded
+  loop:
+    - '22'
+
+# NOTE: not yet enabled because stfd still doesn't support defining a port range, but will be soon
+#
+#- name: allowing sft media ingress
+#  ufw:
+#    rule: allow
+#    proto: udp
+#    to_port: "{{ item }}"
+#    state: reloaded
+#  loop:
+#    - '1048:65535'
+
+
+- name: configuring SFT nginx vhost
+  template:
+    src: 'vhost_sftd.conf.j2'
+    dest: "{{ NGINX_CONF_DIR }}/sftd.conf"
+    owner: root
+    group: root
+    mode: '644'
+  register: ingress_sftd
+
+- name: reloading nginx to expose sftd
+  systemd:
+    name: 'nginx'
+    enabled: yes
+    state: reloaded
+  when:
+    - ingress_sftd.changed

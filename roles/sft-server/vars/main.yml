@@ -14,3 +14,17 @@ SFTD_GROUP: 'sft'
 
 NGINX_CONF_PATH: '/etc/nginx/nginx.conf'
 NGINX_CONF_DIR: '/etc/nginx/conf.d'
+NGINX_DHPARAMS_PATH: '/etc/ssl/nginx-dhparams.pem'
+
+
+CERTBOT_CONF_PATH: '/etc/letsencrypt'
+CERTBOT_WEBROOT_PATH : '/usr/share/nginx/certbot'
+
+# NOTE: the following two paths cannot really be configured for a certbot invocation
+CERTBOT_LIVE_PATH: "{{ CERTBOT_CONF_PATH }}/live"
+CERTBOT_ARCHIVE_PATH: "{{ CERTBOT_CONF_PATH }}/archive"
+
+CERTBOT_CERT: "{{ CERTBOT_LIVE_PATH }}/{{ sft_fqdn }}/cert.pem"
+CERTBOT_PRIVKEY: "{{ CERTBOT_LIVE_PATH }}/{{ sft_fqdn }}/privkey.pem"
+CERTBOT_CHAIN: "{{ CERTBOT_LIVE_PATH }}/{{ sft_fqdn }}/chain.pem"
+CERTBOT_FULLCHAIN: "{{ CERTBOT_LIVE_PATH }}/{{ sft_fqdn }}/fullchain.pem"
