@@ -1,7 +1,7 @@
-- name: creating directory for cordump configuation
+- name: creating directory for coredump configuation
   file:
     state: directory
-    path: '/etc/systemd/coredump.conf.d'
+    path: "{{ SYSTEMD_COREDUMP_SERVICE_CONF_DIR }}"
     owner: root
     group: root
     mode: '755'
@@ -9,19 +9,19 @@
 - name: configuring coredump
   template:
     src: 'coredump.conf.j2'
-    dest: '/etc/systemd/coredump.conf.d/custom.conf'
+    dest: "{{ SYSTEMD_COREDUMP_SERVICE_CONF_DIR }}/custom.conf"
     owner: root
     group: root
     mode: '644'
   when:
-    - sft_coredump_enabled | bool
+    - systemd_coredump_enabled | bool
 
-# NOTE: just to bring global configuration under control; based on and almost
-#       identical to upstream v1.18.0
+
+# NOTE: based on and almost identical to upstream v1.18.0
 #
 - name: configuring nginx
-  copy:
-    src: 'nginx.conf'
+  template:
+    src: 'nginx.conf.j2'
     dest: "{{ NGINX_CONF_PATH }}"
     owner: root
     group: root
@@ -33,6 +33,24 @@
   file:
     path: "{{ NGINX_CONF_DIR }}/default.conf"
     state: absent
+  notify:
+    - nginx configuration changed
+
+- name: creating systemd folder to override nginx service configuration
+  file:
+    state: directory
+    path: "{{ SYSTEMD_NGINX_SERVICE_CONF_DIR }}"
+    owner: root
+    group: root
+    mode: '755'
+
+- name: overriding nginx service configuration
+  template:
+    src: 'nginx.service.override.j2'
+    dest: "{{ SYSTEMD_NGINX_SERVICE_CONF_DIR }}/override.conf"
+    owner: root
+    group: root
+    mode: '644'
   notify:
     - nginx configuration changed
 
@@ -76,7 +94,7 @@
 #
 - name: configuring vhost for certbot HTTP challenge
   template:
-    src: 'vhost_certbot-http-challenge.conf.j2'
+    src: 'certbot-http-challenge.vhost.conf.j2'
     dest: "{{ NGINX_CONF_DIR }}/certbot-http-challenge.conf"
     owner: root
     group: root
@@ -120,7 +138,7 @@
         --fullchain-path {{ CERTBOT_FULLCHAIN }}
 
 
-- name: generating DH parameters for SFT nginx vhost
+- name: 'generating DH parameters for SFT nginx vhost (NOTE: This is going to take a long time)'
   openssl_dhparam:
     path: "{{ NGINX_DHPARAMS_PATH }}"
     size: 4096

@@ -1,8 +1,8 @@
 [Unit]
 Description=Running service: SFT server
 
-After=nginx.service
-Wants=nginx.service
+After=network-online.target
+Wants=network-online.target
 
 
 [Service]
@@ -13,11 +13,13 @@ Restart=always
 LimitCORE=infinity
 LimitCORESoft=0
 
+LimitNOFILE={{ SFTD_LIMIT_NOFILE }}
+
 User={{ SFTD_USER }}
 Group={{ SFTD_GROUP }}
 
 ExecStart={{ SFT_BIN_PATH }} \
-            -I '{{ sft_local_ip }}' \
+            -I '{{ SFTD_INCOMING_IP }}' \
             -A '{{ sft_public_ip }}' \
             {% if sft_uuid is defined %}-u '{{ sft_uuid }}' \{% endif -%}
             -s

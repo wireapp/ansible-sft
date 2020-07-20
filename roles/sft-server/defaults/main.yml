@@ -5,8 +5,6 @@ service_name: "{{ role_name }}"
 
 
 
-sft_local_ip: '127.0.0.1'
-
 # NOTE: filters out private networks as of https://tools.ietf.org/html/rfc1918#section-3
 #       override to mitigate this behaviour entirely
 # NOTE: there is no excluding filter, just including ones, hence such cumbersome syntax
@@ -30,9 +28,6 @@ sft_public_ip: >-
     }}
 
 
-sft_coredump_enabled: true
-# NOTE: set reasonable high, while in reality still being limited by total memory size; set to 0 in order to disable
-sft_coredump_max_file_size: '4G'
 
 
 # INFO: The following variables will be tested for existence
@@ -83,3 +78,10 @@ certbot_in_test_mode: true
 # INFO: The following variables are mandatory
 
 # certbot_account_email: String
+
+
+
+systemd_coredump_enabled: true
+
+# NOTE: set reasonable high, while in reality still being limited by total memory size; set to 0 in order to disable
+systemd_coredump_max_file_size: '4G'
