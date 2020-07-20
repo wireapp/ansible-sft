@@ -7,14 +7,28 @@ SFT_BIN_PATH: '/usr/local/bin/sftd'
 SFTD_SIGNALING_PORT: 8585
 SFTD_METRICS_PORT: 49090
 
+SFTD_INCOMING_IP: '127.0.0.1'
+
 SFTD_USER: 'sft'
 SFTD_GROUP: 'sft'
+
+# TODO: adjust calculation when/if an actual port range is defined. Also, see task 'allowing sft media ingress'
+SFTD_LIMIT_NOFILE: "{{ 65536 - 1024 }}"
 
 
 
 NGINX_CONF_PATH: '/etc/nginx/nginx.conf'
 NGINX_CONF_DIR: '/etc/nginx/conf.d'
 NGINX_DHPARAMS_PATH: '/etc/ssl/nginx-dhparams.pem'
+
+# NOTE: defaults to 1024 but since `ulimit -n` typically defaults to 1024 already and
+#       the amount of connections include all sorts of connections, the number of open
+#       files at least needs to be doubled
+# DOCS: http://nginx.org/en/docs/ngx_core_module.html#worker_connections
+# SRC:  https://stackoverflow.com/questions/37591784/nginx-worker-rlimit-nofile
+NGINX_WORKER_CONNECTIONS: 1024
+NGINX_RLIMIT_NOFILE: "{{ NGINX_WORKER_CONNECTIONS * 2 }}"
+
 
 
 CERTBOT_CONF_PATH: '/etc/letsencrypt'
@@ -28,3 +42,8 @@ CERTBOT_CERT: "{{ CERTBOT_LIVE_PATH }}/{{ sft_fqdn }}/cert.pem"
 CERTBOT_PRIVKEY: "{{ CERTBOT_LIVE_PATH }}/{{ sft_fqdn }}/privkey.pem"
 CERTBOT_CHAIN: "{{ CERTBOT_LIVE_PATH }}/{{ sft_fqdn }}/chain.pem"
 CERTBOT_FULLCHAIN: "{{ CERTBOT_LIVE_PATH }}/{{ sft_fqdn }}/fullchain.pem"
+
+
+
+SYSTEMD_COREDUMP_SERVICE_CONF_DIR: '/etc/systemd/coredump.conf.d'
+SYSTEMD_NGINX_SERVICE_CONF_DIR: '/etc/systemd/system/nginx.service.d'

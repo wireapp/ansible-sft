@@ -4,9 +4,12 @@
 
 Storage=external
 
-ProcessSizeMax={{ sft_coredump_max_file_size }}
-ExternalSizeMax={{ sft_coredump_max_file_size }}
+ProcessSizeMax={{ systemd_coredump_max_file_size }}
+ExternalSizeMax={{ systemd_coredump_max_file_size }}
 
 Compress=yes
 
+# NOTE: Giving everything else (metrics, web server, sidecar, and the rest of the system) a bit
+#       more headroom than just the default of 10%. Since this is a relative boundary, for small
+#       machines it might be a bit tight.
 KeepFree=20%
