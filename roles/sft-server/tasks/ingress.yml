@@ -46,7 +46,7 @@
 - name: configuring SFT nginx vhost
   template:
     src: 'sftd.vhost.conf.j2'
-    dest: "{{ NGINX_CONF_DIR }}/sftd.conf"
+    dest: "{{ nginx_conf_dir }}/sftd.conf"
     owner: root
     group: root
     mode: '644'

@@ -1,7 +1,7 @@
 - name: copying SFT artifact
   copy:
     src: "{{ sft_artifact_file_path }}"
-    dest: "{{ SFT_ARTIFACT_TARGET_PATH }}"
+    dest: "{{ sft_artifact_target_path }}"
   when:
     - sft_artifact_file_path is defined
     - sft_version is not defined
@@ -32,7 +32,7 @@
 - name: unpacking artifact
   unarchive:
     remote_src: yes
-    src: "{{ SFT_ARTIFACT_TARGET_PATH }}"
+    src: "{{ sft_artifact_target_path }}"
     dest: '/tmp/'
     list_files: yes
   register: unpacked
@@ -41,15 +41,15 @@
   copy:
     src: "{{ unpacked.dest }}{{ unpacked.files[0] }}"
     remote_src: yes
-    dest: "{{ SFT_BIN_PATH }}"
+    dest: "{{ sftd_bin_path }}"
   register: binary_sftd
 
 - name: ensuring executable state
   file:
-    path: "{{ SFT_BIN_PATH }}"
+    path: "{{ sftd_bin_path }}"
     state: 'file'
-    owner: "{{ SFTD_USER }}"
-    group: "{{ SFTD_GROUP }}"
+    owner: "{{ sftd_user }}"
+    group: "{{ sftd_group }}"
     mode: '550'
 
 - name: copying systemd service unit
