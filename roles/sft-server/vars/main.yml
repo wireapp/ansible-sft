@@ -18,7 +18,6 @@ sftd_limit_nofile: "{{ 65536 - 1024 }}"
 
 
 
-nginx_conf_path: '/etc/nginx/nginx.conf'
 nginx_conf_dir: '/etc/nginx/conf.d'
 nginx_dhparams_path: '/etc/ssl/nginx-dhparams.pem'
 
@@ -35,14 +34,9 @@ nginx_rlimit_nofile: "{{ nginx_worker_connections * 2 }}"
 certbot_conf_path: '/etc/letsencrypt'
 certbot_webroot_path: '/usr/share/nginx/certbot'
 
-# NOTE: the following two paths cannot really be configured for a certbot invocation
+# NOTE: the following two paths are defined by certbot and not configurable
 certbot_live_path: "{{ certbot_conf_path }}/live"
 certbot_archive_path: "{{ certbot_conf_path }}/archive"
-
-certbot_cert: "{{ certbot_live_path }}/{{ sft_fqdn }}/cert.pem"
-certbot_privkey: "{{ certbot_live_path }}/{{ sft_fqdn }}/privkey.pem"
-certbot_chain: "{{ certbot_live_path }}/{{ sft_fqdn }}/chain.pem"
-certbot_fullchain: "{{ certbot_live_path }}/{{ sft_fqdn }}/fullchain.pem"
 
 
 
