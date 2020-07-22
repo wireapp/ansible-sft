@@ -6,7 +6,7 @@ server {
 
 
     location /.well-known/acme-challenge {
-        alias {{ CERTBOT_WEBROOT_PATH }}/.well-known/acme-challenge;
+        alias {{ certbot_webroot_path }}/.well-known/acme-challenge;
 
         try_files $uri =404;
     }

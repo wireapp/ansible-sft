@@ -1,49 +1,50 @@
 # NOTE: considered to be constants due to high precedence
 
-SFT_ARTIFACT_TARGET_PATH: '/tmp/sft-artifact.tar.gz'
-SFT_BIN_PATH: '/usr/local/bin/sftd'
+sft_artifact_target_path: '/tmp/sft-artifact.tar.gz'
 
+
+sftd_bin_path: '/usr/local/bin/sftd'
 # NOTE: currently hardcoded in source, but will soon be configurable
-SFTD_SIGNALING_PORT: 8585
-SFTD_METRICS_PORT: 49090
+sftd_signaling_port: 8585
+sftd_metrics_port: 49090
 
-SFTD_INCOMING_IP: '127.0.0.1'
+sftd_incoming_ip: '127.0.0.1'
 
-SFTD_USER: 'sft'
-SFTD_GROUP: 'sft'
+sftd_user: 'sft'
+sftd_group: 'sft'
 
 # TODO: adjust calculation when/if an actual port range is defined. Also, see task 'allowing sft media ingress'
-SFTD_LIMIT_NOFILE: "{{ 65536 - 1024 }}"
+sftd_limit_nofile: "{{ 65536 - 1024 }}"
 
 
 
-NGINX_CONF_PATH: '/etc/nginx/nginx.conf'
-NGINX_CONF_DIR: '/etc/nginx/conf.d'
-NGINX_DHPARAMS_PATH: '/etc/ssl/nginx-dhparams.pem'
+nginx_conf_path: '/etc/nginx/nginx.conf'
+nginx_conf_dir: '/etc/nginx/conf.d'
+nginx_dhparams_path: '/etc/ssl/nginx-dhparams.pem'
 
 # NOTE: defaults to 1024 but since `ulimit -n` typically defaults to 1024 already and
 #       the amount of connections include all sorts of connections, the number of open
 #       files at least needs to be doubled
 # DOCS: http://nginx.org/en/docs/ngx_core_module.html#worker_connections
 # SRC:  https://stackoverflow.com/questions/37591784/nginx-worker-rlimit-nofile
-NGINX_WORKER_CONNECTIONS: 1024
-NGINX_RLIMIT_NOFILE: "{{ NGINX_WORKER_CONNECTIONS * 2 }}"
+nginx_worker_connections: 1024
+nginx_rlimit_nofile: "{{ nginx_worker_connections * 2 }}"
 
 
 
-CERTBOT_CONF_PATH: '/etc/letsencrypt'
-CERTBOT_WEBROOT_PATH : '/usr/share/nginx/certbot'
+certbot_conf_path: '/etc/letsencrypt'
+certbot_webroot_path: '/usr/share/nginx/certbot'
 
 # NOTE: the following two paths cannot really be configured for a certbot invocation
-CERTBOT_LIVE_PATH: "{{ CERTBOT_CONF_PATH }}/live"
-CERTBOT_ARCHIVE_PATH: "{{ CERTBOT_CONF_PATH }}/archive"
+certbot_live_path: "{{ certbot_conf_path }}/live"
+certbot_archive_path: "{{ certbot_conf_path }}/archive"
 
-CERTBOT_CERT: "{{ CERTBOT_LIVE_PATH }}/{{ sft_fqdn }}/cert.pem"
-CERTBOT_PRIVKEY: "{{ CERTBOT_LIVE_PATH }}/{{ sft_fqdn }}/privkey.pem"
-CERTBOT_CHAIN: "{{ CERTBOT_LIVE_PATH }}/{{ sft_fqdn }}/chain.pem"
-CERTBOT_FULLCHAIN: "{{ CERTBOT_LIVE_PATH }}/{{ sft_fqdn }}/fullchain.pem"
+certbot_cert: "{{ certbot_live_path }}/{{ sft_fqdn }}/cert.pem"
+certbot_privkey: "{{ certbot_live_path }}/{{ sft_fqdn }}/privkey.pem"
+certbot_chain: "{{ certbot_live_path }}/{{ sft_fqdn }}/chain.pem"
+certbot_fullchain: "{{ certbot_live_path }}/{{ sft_fqdn }}/fullchain.pem"
 
 
 
-SYSTEMD_COREDUMP_SERVICE_CONF_DIR: '/etc/systemd/coredump.conf.d'
-SYSTEMD_NGINX_SERVICE_CONF_DIR: '/etc/systemd/system/nginx.service.d'
+systemd_coredump_service_conf_dir: '/etc/systemd/coredump.conf.d'
+systemd_nginx_service_conf_dir: '/etc/systemd/system/nginx.service.d'

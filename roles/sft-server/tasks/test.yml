@@ -8,7 +8,7 @@
 
 - name: "verifying that service '{{ name }}' is available"
   uri:
-    url: "http://127.0.0.1:{{ SFTD_METRICS_PORT }}/metrics"
+    url: "http://127.0.0.1:{{ sftd_metrics_port }}/metrics"
     timeout: 6
   register: response
   failed_when: response.status != 200

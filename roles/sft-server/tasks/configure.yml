@@ -1,7 +1,7 @@
 - name: creating directory for coredump configuation
   file:
     state: directory
-    path: "{{ SYSTEMD_COREDUMP_SERVICE_CONF_DIR }}"
+    path: "{{ systemd_coredump_service_conf_dir }}"
     owner: root
     group: root
     mode: '755'
@@ -9,7 +9,7 @@
 - name: configuring coredump
   template:
     src: 'coredump.conf.j2'
-    dest: "{{ SYSTEMD_COREDUMP_SERVICE_CONF_DIR }}/custom.conf"
+    dest: "{{ systemd_coredump_service_conf_dir }}/custom.conf"
     owner: root
     group: root
     mode: '644'
@@ -22,7 +22,7 @@
 - name: configuring nginx
   template:
     src: 'nginx.conf.j2'
-    dest: "{{ NGINX_CONF_PATH }}"
+    dest: "{{ nginx_conf_path }}"
     owner: root
     group: root
     mode: '644'
@@ -31,7 +31,7 @@
 
 - name: deleting nginx default site
   file:
-    path: "{{ NGINX_CONF_DIR }}/default.conf"
+    path: "{{ nginx_conf_dir }}/default.conf"
     state: absent
   notify:
     - nginx configuration changed
@@ -39,7 +39,7 @@
 - name: creating systemd folder to override nginx service configuration
   file:
     state: directory
-    path: "{{ SYSTEMD_NGINX_SERVICE_CONF_DIR }}"
+    path: "{{ systemd_nginx_service_conf_dir }}"
     owner: root
     group: root
     mode: '755'
@@ -47,7 +47,7 @@
 - name: overriding nginx service configuration
   template:
     src: 'nginx.service.override.j2'
-    dest: "{{ SYSTEMD_NGINX_SERVICE_CONF_DIR }}/override.conf"
+    dest: "{{ systemd_nginx_service_conf_dir }}/override.conf"
     owner: root
     group: root
     mode: '644'
@@ -58,7 +58,7 @@
 - name: creating certbot webroot path
   file:
     state: directory
-    path: "{{ CERTBOT_WEBROOT_PATH }}"
+    path: "{{ certbot_webroot_path }}"
     owner: root
     group: root
     mode: '755'
@@ -73,13 +73,13 @@
     mode: '755'
   when: certbot_enabled | bool
   loop:
-    - "{{ CERTBOT_LIVE_PATH }}"
-    - "{{ CERTBOT_ARCHIVE_PATH }}"
+    - "{{ certbot_live_path }}"
+    - "{{ certbot_archive_path }}"
 
 - name: configuring certbot
   template:
     src: 'certbot.ini.j2'
-    dest: "{{ CERTBOT_CONF_PATH }}/cli.ini"
+    dest: "{{ certbot_conf_path }}/cli.ini"
     owner: root
     group: root
     mode: '644'
@@ -95,7 +95,7 @@
 - name: configuring vhost for certbot HTTP challenge
   template:
     src: 'certbot-http-challenge.vhost.conf.j2'
-    dest: "{{ NGINX_CONF_DIR }}/certbot-http-challenge.conf"
+    dest: "{{ nginx_conf_dir }}/certbot-http-challenge.conf"
     owner: root
     group: root
     mode: '644'
@@ -114,7 +114,7 @@
 
 - name: checking whether certificate was already initially obtained by certbot
   stat:
-    path: "{{ CERTBOT_CONF_PATH }}/live/{{ sft_fqdn }}"
+    path: "{{ certbot_conf_path }}/live/{{ sft_fqdn }}"
   register: cert_location
   when: certbot_enabled | bool
 
@@ -132,15 +132,15 @@
         --rsa-key-size 4096
         --authenticator webroot
         --webroot-path /usr/share/nginx/certbot
-        --cert-path {{ CERTBOT_CERT }}
-        --key-path {{ CERTBOT_PRIVKEY }}
-        --chain-path {{ CERTBOT_CHAIN }}
-        --fullchain-path {{ CERTBOT_FULLCHAIN }}
+        --cert-path {{ certbot_cert }}
+        --key-path {{ certbot_privkey }}
+        --chain-path {{ certbot_chain }}
+        --fullchain-path {{ certbot_fullchain }}
 
 
 - name: 'generating DH parameters for SFT nginx vhost (NOTE: This is going to take a long time)'
   openssl_dhparam:
-    path: "{{ NGINX_DHPARAMS_PATH }}"
+    path: "{{ nginx_dhparams_path }}"
     size: 4096
     owner: root
     group: root

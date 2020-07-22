@@ -13,13 +13,13 @@ Restart=always
 LimitCORE=infinity
 LimitCORESoft=0
 
-LimitNOFILE={{ SFTD_LIMIT_NOFILE }}
+LimitNOFILE={{ sftd_limit_nofile }}
 
-User={{ SFTD_USER }}
-Group={{ SFTD_GROUP }}
+User={{ sftd_user }}
+Group={{ sftd_group }}
 
-ExecStart={{ SFT_BIN_PATH }} \
-            -I '{{ SFTD_INCOMING_IP }}' \
+ExecStart={{ sftd_bin_path }} \
+            -I '{{ sftd_incoming_ip }}' \
             -A '{{ sft_public_ip }}' \
             {% if sft_uuid is defined %}-u '{{ sft_uuid }}' \{% endif -%}
             -s
