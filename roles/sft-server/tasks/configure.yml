@@ -22,7 +22,7 @@
 - name: configuring nginx
   template:
     src: 'nginx.conf.j2'
-    dest: "{{ nginx_conf_path }}"
+    dest: '/etc/nginx/nginx.conf'
     owner: root
     group: root
     mode: '644'
@@ -131,11 +131,7 @@
         --preferred-challenges http
         --rsa-key-size 4096
         --authenticator webroot
-        --webroot-path /usr/share/nginx/certbot
-        --cert-path {{ certbot_cert }}
-        --key-path {{ certbot_privkey }}
-        --chain-path {{ certbot_chain }}
-        --fullchain-path {{ certbot_fullchain }}
+        --webroot-path {{ certbot_webroot_path }}
 
 
 - name: 'generating DH parameters for SFT nginx vhost (NOTE: This is going to take a long time)'

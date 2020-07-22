@@ -12,8 +12,8 @@ server {
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
 
-    ssl_certificate_key {% if certbot_enabled %}{{ certbot_privkey }}{% else %}{{ tls_key_path }}{% endif %};
-    ssl_certificate {% if certbot_enabled %}{{ certbot_fullchain }}{% else %}{{ tls_cert_path }}{% endif %};
+    ssl_certificate_key {% if certbot_enabled %}{{ certbot_live_path }}/{{ sft_fqdn }}/privkey.pem{% else %}{{ tls_key_path }}{% endif %};
+    ssl_certificate {% if certbot_enabled %}{{ certbot_live_path }}/{{ sft_fqdn }}/fullchain.pem{% else %}{{ tls_cert_path }}{% endif %};
     ssl_dhparam {{ nginx_dhparams_path }};
 
     ssl_session_timeout 1d;
