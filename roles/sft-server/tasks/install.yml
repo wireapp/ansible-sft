@@ -4,29 +4,29 @@
     dest: "{{ sft_artifact_target_path }}"
   when:
     - sft_artifact_file_path is defined
-    - sft_version is not defined
     - sft_artifact_file_url is not defined
     - sft_artifact_checksum is not defined
 
-- name: downloading SFT artifact by version
-  # get_url
-  debug:
-    msg: "TODO"
-  when:
-    - sft_version is defined
-    - sft_artifact_file_path is not defined
-    - sft_artifact_file_url is not defined
-    - sft_artifact_checksum is not defined
+# TODO: To be reviewed once SFT is made public
+# - name: downloading SFT artifact by version
+#   # get_url
+#   debug:
+#     msg: "TODO"
+#   when:
+#     - sft_version is defined
+#     - sft_artifact_file_path is not defined
+#     - sft_artifact_file_url is not defined
+#     - sft_artifact_checksum is not defined
 
-- name: downloading SFT artifact by URL
-  # get_url
-  debug:
-    msg: "TODO"
-  when:
-    - sft_artifact_file_url is defined
-    - sft_artifact_checksum is defined
-    - sft_artifact_file_path is not defined
-    - sft_version is not defined
+# - name: downloading SFT artifact by URL
+#   # get_url
+#   debug:
+#     msg: "TODO"
+#   when:
+#     - sft_artifact_file_url is defined
+#     - sft_artifact_checksum is defined
+#     - sft_artifact_file_path is not defined
+#     - sft_version is not defined
 
 
 - name: unpacking artifact
