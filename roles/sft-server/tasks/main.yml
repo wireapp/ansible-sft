@@ -1,9 +1,6 @@
 - name: verifying requirements
   import_tasks: assert.yml
 
-- name: preparing service
-  import_tasks: prepare.yml
-
 - name: installing service
   import_tasks: install.yml
 

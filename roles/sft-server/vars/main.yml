@@ -5,13 +5,10 @@ sft_artifact_target_path: '/tmp/sft-artifact.tar.gz'
 
 sftd_bin_path: '/usr/local/bin/sftd'
 # NOTE: currently hardcoded in source, but will soon be configurable
-sftd_signaling_port: 8585
-sftd_metrics_port: 49090
+sftd_signaling_port: 1030
+sftd_metrics_port: 1040
 
 sftd_incoming_ip: '127.0.0.1'
-
-sftd_user: 'sft'
-sftd_group: 'sft'
 
 # TODO: adjust calculation when/if an actual port range is defined. Also, see task 'allowing sft media ingress'
 sftd_limit_nofile: "{{ 65536 - 1024 }}"
@@ -22,12 +19,17 @@ nginx_conf_dir: '/etc/nginx/conf.d'
 nginx_dhparams_path: '/etc/ssl/nginx-dhparams.pem'
 
 # NOTE: defaults to 1024 but since `ulimit -n` typically defaults to 1024 already and
-#       the amount of connections include all sorts of connections, the number of open
-#       files at least needs to be doubled
+#       the overall amount of connections includes all sorts of connections, the number
+#       of open files must at least be be doubled
 # DOCS: http://nginx.org/en/docs/ngx_core_module.html#worker_connections
 # SRC:  https://stackoverflow.com/questions/37591784/nginx-worker-rlimit-nofile
-nginx_worker_connections: 1024
+nginx_worker_connections: 2048
 nginx_rlimit_nofile: "{{ nginx_worker_connections * 2 }}"
+
+# NOTE: defaulting to the amount of cores available on the system. Although, `sftd` itself
+#       can only accept one request at a time. Which means, for this setup 2 workers/processes
+#       should be fine: one for signaling and the other one for metrics
+nginx_worker_processes: "{{ ansible_processor_vcpus if ansible_processor_vcpus <= 2 else 2 }}"
 
 
 

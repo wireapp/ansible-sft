@@ -6,7 +6,7 @@
   until: result.stdout == "active"
   changed_when: false
 
-- name: "verifying that service '{{ name }}' is available"
+- name: "verifying that service '{{ service_name }}' is available"
   uri:
     url: "http://127.0.0.1:{{ sftd_metrics_port }}/metrics"
     timeout: 6

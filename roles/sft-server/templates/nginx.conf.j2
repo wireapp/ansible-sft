@@ -1,7 +1,7 @@
 
 user  nginx;
 
-worker_processes  {{ ansible_processor_vcpus }};
+worker_processes  {{ nginx_worker_processes }};
 worker_rlimit_nofile {{ nginx_rlimit_nofile }};
 
 error_log  stderr warn;
