@@ -46,9 +46,7 @@
   file:
     path: "{{ sftd_bin_path }}"
     state: 'file'
-    owner: "{{ sftd_user }}"
-    group: "{{ sftd_group }}"
-    mode: '550'
+    mode: '555'
 
 - name: copying systemd service unit
   template:

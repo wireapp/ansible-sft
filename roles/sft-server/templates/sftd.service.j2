@@ -15,14 +15,15 @@ LimitCORESoft=0
 
 LimitNOFILE={{ sftd_limit_nofile }}
 
-User={{ sftd_user }}
-Group={{ sftd_group }}
+DynamicUser=yes
 
 ExecStart={{ sftd_bin_path }} \
             -I '{{ sftd_incoming_ip }}' \
+            -p '{{ sftd_signaling_port }}' \
             -A '{{ sft_public_ip }}' \
-            {% if sft_uuid is defined %}-u '{{ sft_uuid }}' \{% endif -%}
-            -s
+            -M '{{ sftd_incoming_ip }}' \
+            -r '{{ sftd_metrics_port }}' \
+            -u 'https://{{ sft_fqdn }}'
 
 
 [Install]
