@@ -1,11 +1,9 @@
 SFT - Selective Forwarding TURN
 ===============================
 
-
 ### Prerequisites
 
 * Ubuntu 18.04
-
 
 ### Terminology
 
@@ -13,7 +11,6 @@ __Server:__ an instance hosting the SFT service as well as a local proxy in fron
 
 __Load balancer:__ a different instance from *servers*, that distributes new incoming conference calls across
 *servers* during the *signaling* procedure.
-
 
 ### About this repository
 
