@@ -1,0 +1,30 @@
+[Unit]
+Description=Running service: SFT server
+
+After=network-online.target
+Wants=network-online.target
+
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+
+# maximum size of core files (bytes)
+LimitCORE=infinity
+LimitCORESoft=0
+
+LimitNOFILE={{ sftd_limit_nofile }}
+
+DynamicUser=yes
+
+ExecStart={{ sftd_bin_path }} \
+            -I '{{ sftd_incoming_ip }}' \
+            -p '{{ sftd_signaling_port }}' \
+            -A '{{ sft_public_ip }}' \
+            -M '{{ sftd_incoming_ip }}' \
+            -r '{{ sftd_metrics_port }}' \
+            -u 'https://{{ sft_fqdn }}'
+
+
+[Install]
+WantedBy=multi-user.target

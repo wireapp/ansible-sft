@@ -1,0 +1,6 @@
+- name: starting service - {{ service_name }}
+  systemd:
+    name: "{{ service_name }}"
+    enabled: yes
+    state: "{{ 'restarted' if binary_sftd.changed else 'started' }}"
+    daemon_reload: "{{ 'yes' if unit_sftd.changed else 'no' }}"

@@ -1,0 +1,5 @@
+- name: nginx configuration changed
+  systemd:
+    name: 'nginx'
+    enabled: yes
+    state: reloaded
