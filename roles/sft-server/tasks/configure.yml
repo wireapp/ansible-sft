@@ -112,7 +112,7 @@
     - certbot_enabled | bool
     - ingress_certbot.changed
 
-- name: checking whether certificate was already initially obtained by certbot
+- name: checking whether certificate has already been obtained by certbot
   stat:
     path: "{{ certbot_conf_path }}/live/{{ sft_fqdn }}"
   register: cert_location

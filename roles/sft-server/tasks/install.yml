@@ -35,7 +35,7 @@
     list_files: yes
   register: unpacked
 
-- name: copying executable to right location
+- name: copying SFT executable to right location
   copy:
     src: "{{ unpacked.dest }}{{ unpacked.files[0] }}"
     remote_src: yes
@@ -46,7 +46,7 @@
   file:
     path: "{{ sftd_bin_path }}"
     state: 'file'
-    mode: '555'
+    mode: '755'
 
 - name: copying systemd service unit
   template:
