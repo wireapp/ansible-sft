@@ -13,7 +13,7 @@ sftd_incoming_ip: '127.0.0.1'
 sftd_limit_nofile: "{{ 65536 - 1024 }}"
 
 # NOTE: we can limit the client versions allowed by the SFT. The format of this string
-#       is of a comma separated list of version numbers (no spaces allowed), potentially
+#       is a comma separated list of version numbers (no spaces allowed), potentially
 #       prefixed by a '<' modifier, meaning that all versions earlier than that
 #       are rejected by the server.
 # sft_allowed_client_versions: '<5.2.10,5.2.15'
