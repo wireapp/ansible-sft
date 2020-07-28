@@ -12,9 +12,11 @@ sftd_incoming_ip: '127.0.0.1'
 # TODO: adjust calculation when/if an actual port range is defined. Also, see task 'allowing sft media ingress'
 sftd_limit_nofile: "{{ 65536 - 1024 }}"
 
-# NOTE: this will be the minimum version accepted by the SFT server; any clients
-#       using versions earlier than this one will be rejected by the server
-# sft_min_client_version: '6.2.10'
+# NOTE: we can limit the client versions allowed by the SFT. The format of this string
+#       is of a comma separated list of version numbers (no spaces allowed), potentially
+#       prefixed by a '<' modifier, meaning that all versions earlier than that
+#       are rejected by the server.
+# sft_allowed_client_versions: '<5.2.10,5.2.15'
 
 nginx_conf_dir: '/etc/nginx/conf.d'
 nginx_dhparams_path: '/etc/ssl/nginx-dhparams.pem'
