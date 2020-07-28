@@ -23,6 +23,9 @@ ExecStart={{ sftd_bin_path }} \
             -A '{{ sft_public_ip }}' \
             -M '{{ sftd_incoming_ip }}' \
             -r '{{ sftd_metrics_port }}' \
+			{% if sft_min_client_version is defined %}
+    			-b "<{{ sft_min_client_version }}" \
+			{% endif %}
             -u 'https://{{ sft_fqdn }}'
 
 

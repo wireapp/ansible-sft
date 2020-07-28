@@ -12,6 +12,8 @@ sftd_incoming_ip: '127.0.0.1'
 # TODO: adjust calculation when/if an actual port range is defined. Also, see task 'allowing sft media ingress'
 sftd_limit_nofile: "{{ 65536 - 1024 }}"
 
+sft_min_client_version: '6.2.10'
+
 nginx_conf_dir: '/etc/nginx/conf.d'
 nginx_dhparams_path: '/etc/ssl/nginx-dhparams.pem'
 
