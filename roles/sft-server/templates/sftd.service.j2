@@ -23,9 +23,9 @@ ExecStart={{ sftd_bin_path }} \
             -A '{{ sft_public_ip }}' \
             -M '{{ sftd_incoming_ip }}' \
             -r '{{ sftd_metrics_port }}' \
-{% if sft_allowed_client_versions is defined %}
+            {% if sft_allowed_client_versions is defined -%}
             -b "{{ sft_allowed_client_versions }}" \
-{% endif %}
+            {% endif -%}
             -u 'https://{{ sft_fqdn }}'
 
 
