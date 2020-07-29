@@ -9,9 +9,10 @@ Wants=network-online.target
 TimeoutStartSec=0
 Restart=always
 
-# maximum size of core files (bytes)
-LimitCORE=infinity
-LimitCORESoft=0
+# NOTE: maximum size of core files (bytes); inherently limited
+#       by overall amount of available memory
+# SYNTAX: $soft:$hard
+LimitCORE=0:infinity
 
 LimitNOFILE={{ sftd_limit_nofile }}
 
@@ -23,6 +24,9 @@ ExecStart={{ sftd_bin_path }} \
             -A '{{ sft_public_ip }}' \
             -M '{{ sftd_incoming_ip }}' \
             -r '{{ sftd_metrics_port }}' \
+            {% if sft_unsupported_client_versions | length > 0 -%}
+            -b '{{ sft_unsupported_client_versions | map('trim') | join(',') }}' \
+            {% endif -%}
             -u 'https://{{ sft_fqdn }}'
 
 

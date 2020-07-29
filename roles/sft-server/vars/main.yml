@@ -1,4 +1,4 @@
-# NOTE: considered to be constants due to high precedence
+# NOTE: variables set here are considered to be CONSTANTS due to high precedence
 
 sft_artifact_target_path: '/tmp/sft-artifact.tar.gz'
 
