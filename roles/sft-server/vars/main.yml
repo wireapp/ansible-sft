@@ -1,4 +1,4 @@
-# NOTE: considered to be constants due to high precedence
+# NOTE: variables set here are considered to be CONSTANTS due to high precedence
 
 sft_artifact_target_path: '/tmp/sft-artifact.tar.gz'
 
@@ -11,12 +11,6 @@ sftd_incoming_ip: '127.0.0.1'
 
 # TODO: adjust calculation when/if an actual port range is defined. Also, see task 'allowing sft media ingress'
 sftd_limit_nofile: "{{ 65536 - 1024 }}"
-
-# NOTE: we can limit the client versions allowed by the SFT. The format of this string
-#       is a comma separated list of version numbers (no spaces allowed), potentially
-#       prefixed by a '<' modifier, meaning that all versions earlier than that
-#       are rejected by the server.
-# sft_allowed_client_versions: '<5.2.10,5.2.15'
 
 nginx_conf_dir: '/etc/nginx/conf.d'
 nginx_dhparams_path: '/etc/ssl/nginx-dhparams.pem'
