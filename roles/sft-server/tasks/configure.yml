@@ -1,3 +1,13 @@
+- name: copying systemd service unit
+  template:
+    src: 'sftd.service.j2'
+    dest: "/etc/systemd/system/{{ service_name }}.service"
+    owner: root
+    group: root
+    mode: '644'
+  register: unit_sftd
+
+
 - name: creating directory for coredump configuation
   file:
     state: directory
