@@ -7,6 +7,10 @@ sftd_bin_path: '/usr/local/bin/sftd'
 sftd_signaling_port: 1030
 sftd_metrics_port: 1040
 
+# NOTE: use the complete range of non-privileged ports
+sftd_udp_port_range_start: 1024
+sftd_udp_port_range_end: 65535
+
 sftd_incoming_ip: '127.0.0.1'
 
 # TODO: adjust calculation when/if an actual port range is defined. Also, see task 'allowing sft media ingress'

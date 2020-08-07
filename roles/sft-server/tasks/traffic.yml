@@ -26,21 +26,26 @@
   ufw:
     rule: allow
     proto: tcp
-    to_port: "{{ item }}"
+    direction: in
+    to_port: '22'
     state: reloaded
-  loop:
-    - '22'
 
-# NOTE: not yet enabled because stfd still doesn't support defining a port range, but will be soon
-#
-#- name: allowing sft media ingress
-#  ufw:
-#    rule: allow
-#    proto: udp
-#    to_port: "{{ item }}"
-#    state: reloaded
-#  loop:
-#    - '1048:65535'
+
+- name: allowing SFT media ingress
+  ufw:
+    rule: allow
+    proto: udp
+    direction: in
+    to_port: "{{ sftd_udp_port_range_start }}:{{ sftd_udp_port_range_end }}"
+    state: reloaded
+
+- name: allowing SFT media egress
+  ufw:
+    rule: allow
+    proto: udp
+    direction: out
+    from_port: "{{ sftd_udp_port_range_start }}:{{ sftd_udp_port_range_end }}"
+    state: reloaded
 
 
 - name: configuring SFT nginx vhost
