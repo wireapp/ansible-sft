@@ -11,7 +11,7 @@
   import_tasks: start.yml
 
 - name: exposing service
-  import_tasks: ingress.yml
+  import_tasks: traffic.yml
 
 - name: testing service
   import_tasks: test.yml
