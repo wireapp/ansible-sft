@@ -1,0 +1,5 @@
+- name: verifying requirements
+  import_tasks: assert.yml
+
+- name: installing service
+  import_tasks: install.yml

@@ -1,0 +1,53 @@
+- name: copying {{ service_name }} artifact
+  copy:
+    src: "{{ sft_artifact_file_path }}"
+    dest: "{{ announcer_artifact_target_path }}"
+  when:
+    - announcer_artifact_file_path is defined
+    - announcer_version is not defined
+    - announce_artifact_file_url is not defined
+    - announce_artifact_checksum is not defined
+
+- name: downloading {{ service_name }} artifact by version
+  get_url:
+    url: "{{ announcer_download_base_url }}/{{ announcer_artifact_basename }}.tar.gz"
+    checksum: "sha256:{{ announcer_versions[ announcer_version ][ announcer_platform ~ '_' ~ announcer_arch ] }}"
+    dest: "{{ announcer_artifact_target_path }}"
+  when:
+    - announcer_version is defined
+    - announcer_artifact_file_path is not defined
+    - announce_artifact_file_url is not defined
+    - announce_artifact_checksum is not defined
+
+- name: downloading {{ service_name }} artifact by URL
+  get_url:
+    url: "{{ announce_artifact_file_url }}"
+    checksum: "sha256:{{ announce_artifact_checksum }}"
+    dest: "{{ announcer_artifact_target_path }}"
+  when:
+    - announce_artifact_file_url is defined
+    - announce_artifact_checksum is defined
+    - announcer_version is not defined
+    - announcer_artifact_file_path is not defined
+
+
+- name: unpacking artifact
+  unarchive:
+    remote_src: yes
+    src: "{{ announcer_artifact_target_path }}"
+    dest: '/tmp/'
+    list_files: yes
+  register: unpacked
+
+- name: copying {{ service_name }} executable to right location
+  copy:
+    src: "{{ unpacked.dest }}{{ unpacked.files[0] }}"
+    remote_src: yes
+    dest: "{{ announcer_bin_path }}"
+  register: binary_srva
+
+- name: ensuring executable state
+  file:
+    path: "{{ announcer_bin_path }}"
+    state: 'file'
+    mode: '755'

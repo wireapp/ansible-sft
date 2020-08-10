@@ -1,0 +1,17 @@
+# NOTE: variables set here are considered to be CONSTANTS due to high precedence
+
+service_name: "{{ role_name }}"
+
+announcer_download_base_url: "https://github.com/wireapp/srv-announcer/releases/download/{{ announcer_version }}"
+announcer_artifact_basename: "srv-announcer_{{ announcer_version }}_{{ announcer_platform }}-{{ announcer_arch }}"
+announcer_artifact_target_path: '/tmp/srv-announcer.tar.gz'
+announcer_bin_path: '/usr/local/bin/srv-announcer'
+
+# NOTE: no other architecture or platform supported (yet)
+announcer_platform: 'linux'
+announcer_arch: 'amd64'
+
+
+announcer_versions:
+  v0.1.0:
+    linux_amd64: '5dda66cfa779f06495db7b6495af6456dd1c2f3da22adbb36dc8ae3c130d7c8f'
