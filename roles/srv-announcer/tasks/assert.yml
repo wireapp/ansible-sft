@@ -1,0 +1,5 @@
+- name: verifying if all required variables for SFT are set
+  assert:
+    that:
+      - sft_fqdn is defined
+    msg: '[ERR] Variable not set: sft_fqdn'
