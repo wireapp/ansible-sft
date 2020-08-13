@@ -3,3 +3,27 @@
 
 - name: installing service
   import_tasks: install.yml
+
+- name: configuring service
+  import_tasks: configure.yml
+
+- name: starting service
+  import_tasks: start.yml
+
+- name: finalizing service
+  import_tasks: finalize.yml
+
+
+# NOTE: when staring a service managed by systemd its initial state is
+#       'active' and 'running' until the start timeout has passed, so
+#       the `is-active` test requires an initial delay. Typically the
+#       test.yml tasks are called independently, which implies a natural
+#       delay already.
+#       The amount of seconds is `TimeoutStartSec + 1` to ensure that the
+#       service is in a stable state, even it that is 'failed'
+- name: delaying test run to allow services to stabilize
+  pause:
+    seconds: 5
+
+- name: testing service
+  import_tasks: test.yml

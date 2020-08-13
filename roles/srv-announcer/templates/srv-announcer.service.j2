@@ -1,0 +1,32 @@
+[Unit]
+Description={{ service_name }}.{{ item.key }} - Publish an SRV record on the DNS server
+
+
+After=network-online.target
+Wants=network-online.target
+
+
+[Service]
+TimeoutStartSec=4
+Restart=always
+
+DynamicUser=yes
+
+Environment="AWS_ACCESS_KEY_ID={{ announcer_aws_key_id }}" \
+            "AWS_SECRET_ACCESS_KEY={{ announcer_aws_access_key }}" \
+            "AWS_DEFAULT_REGION={{ announcer_aws_region }}"
+
+ExecStart={{ announcer_bin_path }} \
+            --zone-name '{{ announcer_zone_domain }}' \
+            --srv-record-name '{{ item.value.name }}' \
+            --srv-record-ttl '{{ announcer_record_ttl }}' \
+            --srv-record-priority '{{ announcer_record_priority }}' \
+            --srv-record-weight '{{ announcer_record_weight }}' \
+            --srv-record-port '{{ announcer_record_port }}' \
+            --srv-record-target '{{ item.value.target }}' \
+            --check-interval '30s' \
+            --check-timeout '6s'
+
+
+[Install]
+WantedBy=multi-user.target

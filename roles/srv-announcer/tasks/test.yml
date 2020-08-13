@@ -1,0 +1,9 @@
+- name: "verifying that service '{{ service_name }}' started successfully"
+  command: "systemctl is-active {{ service_name }}.sft"
+  retries: 6
+  delay: 2
+  register: result
+  until: result.stdout == "active"
+  changed_when: false
+  when: item.value.deprecated | default(False) == False
+  loop: "{{ announcer_srv_records | dict2items }}"

@@ -1,0 +1,8 @@
+# NOTE: since the template module does not provide a way to remove the rendered file,
+#       this task will ensure that the configuration is reflected in the filesystem
+#
+- name: ensuring that the state of systemd service unit(es) is consistent
+  file:
+    dest: "/etc/systemd/system/{{ service_name }}.{{ item.key }}.service"
+    state: "{{ 'absent' if (item.value.deprecated | default(False)) else 'file' }}"
+  loop: "{{ announcer_srv_records | dict2items }}"

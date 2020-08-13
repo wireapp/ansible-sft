@@ -1,0 +1,9 @@
+- name: copying systemd service unit(es) to announce SRV record(s)
+  template:
+    src: 'srv-announcer.service.j2'
+    dest: "/etc/systemd/system/{{ service_name }}.{{ item.key }}.service"
+    owner: root
+    group: root
+    mode: '644'
+  loop: "{{ announcer_srv_records | dict2items }}"
+  register: units_srva

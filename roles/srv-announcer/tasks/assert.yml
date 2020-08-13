@@ -1,5 +1,13 @@
-- name: verifying if all required variables for SFT are set
+- name: verifying if all required variables for the srv-announcer are set
   assert:
     that:
-      - sft_fqdn is defined
-    msg: '[ERR] Variable not set: sft_fqdn'
+      - announcer_zone_domain is defined
+    msg: '[ERR] Variable not set: announcer_zone_domain'
+
+- name: verifying if all required variables for the AWS client are set
+  assert:
+    that:
+      - announcer_aws_key_id is defined
+      - announcer_aws_access_key is defined
+      - announcer_aws_region is defined
+    msg: '[ERR] Variable not set: announcer_aws_*'
