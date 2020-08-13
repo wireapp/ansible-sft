@@ -1,0 +1,24 @@
+- name: starting service(s) - {{ service_name }}
+  systemd:
+    name: "{{ service_name }}.{{ item.item.key }}"
+    enabled: yes
+    state: >-
+      {{
+        'restarted' if
+          (binary_srva is defined and binary_srva.changed)
+          or
+          (item.changed is defined and item.changed)
+        else 'started'
+      }}
+    daemon_reload: "{{ 'yes' if item.changed is defined and item.changed else 'no' }}"
+  when: (item.item.value.deprecated | default(False)) == False
+  loop: "{{ units_srva.results }}"
+
+- name: stopping service(s) - {{ service_name }}
+  systemd:
+    name: "{{ service_name }}.{{ item.key }}"
+    enabled: no
+    state: stopped
+    daemon_reload: no
+  when: item.value.deprecated is defined and (item.value.deprecated | bool) == True
+  loop: "{{ announcer_srv_records | dict2items }}"

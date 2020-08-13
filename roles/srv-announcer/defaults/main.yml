@@ -15,5 +15,37 @@
 # announce_artifact_file_url: URL
 # announce_artifact_checksum: value
 
+# DOCS: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html
+# announcer_aws_key_id: String
+# announcer_aws_access_key: String
+# announcer_aws_region: String
+
+# announcer_zone_domain: String, e.g. domain.tld
+
+# NOTE: The srv-announcer can only manage one entry in the SRV record list, but the role allows
+#       to define multiple entries. For each entry a new systemd unit is created. To also
+#       facilitate the usecase of removing a certain unit file, each block allows to define the
+#       attribute `deprecated` in order to indicate a unit removal. After running a play with
+#       that attribute, the whole block can be safely removed
+# EXAMPLE:
+# ```yaml
+#  mx:
+#    name: _mx._tcp.sub.
+#    target: mx1.sub.domain.tld
+#  metrics:
+#    name: _metrics._tcp.sub.
+#    target: monitoring.sub.domain.tld
+#    deprecated: true
+# ```
+announcer_srv_records: {}
+
 
 # INFO: The following variables are NOT mandatory and won't be tested for existence
+
+# NOTE: in seconds
+announcer_record_ttl: 60
+# NOTE: relative values
+announcer_record_priority: 10
+announcer_record_weight: 10
+
+announcer_record_port: 443
