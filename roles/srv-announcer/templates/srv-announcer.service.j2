@@ -18,7 +18,7 @@ Environment="AWS_ACCESS_KEY_ID={{ announcer_aws_key_id }}" \
 
 ExecStart={{ announcer_bin_path }} \
             --zone-name '{{ announcer_zone_domain }}' \
-            --srv-record-name '{{ item.value.name }}' \
+            --srv-record-name '{{ item.value.name }}.{{ announcer_zone_domain }}' \
             --srv-record-ttl '{{ announcer_record_ttl }}' \
             --srv-record-priority '{{ announcer_record_priority }}' \
             --srv-record-weight '{{ announcer_record_weight }}' \
