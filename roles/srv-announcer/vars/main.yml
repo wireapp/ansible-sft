@@ -6,6 +6,8 @@ announcer_download_base_url: "https://github.com/wireapp/srv-announcer/releases/
 announcer_artifact_basename: "srv-announcer_{{ announcer_version }}_{{ announcer_platform }}-{{ announcer_arch }}"
 announcer_artifact_target_path: '/tmp/srv-announcer.tar.gz'
 announcer_bin_path: '/usr/local/bin/srv-announcer'
+announcer_configuration_path: '/usr/local/etc/srv-announcer'
+announcer_environment_variables_path: "{{ announcer_configuration_path }}/credentials.env"
 
 # NOTE: no other architecture or platform supported (yet)
 announcer_platform: 'linux'
