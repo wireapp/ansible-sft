@@ -12,9 +12,7 @@ Restart=always
 
 DynamicUser=yes
 
-Environment="AWS_ACCESS_KEY_ID={{ announcer_aws_key_id }}" \
-            "AWS_SECRET_ACCESS_KEY={{ announcer_aws_access_key }}" \
-            "AWS_DEFAULT_REGION={{ announcer_aws_region }}"
+EnvironmentFile={{ announcer_environment_variables_path }}
 
 ExecStart={{ announcer_bin_path }} \
             --zone-name '{{ announcer_zone_domain }}' \

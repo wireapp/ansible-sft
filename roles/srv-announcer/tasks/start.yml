@@ -8,6 +8,8 @@
           (binary_srva is defined and binary_srva.changed)
           or
           (item.changed is defined and item.changed)
+          or
+          (unit_conf_srva is defined and unit_conf_srva.changed)
         else 'started'
       }}
     daemon_reload: "{{ 'yes' if item.changed is defined and item.changed else 'no' }}"
