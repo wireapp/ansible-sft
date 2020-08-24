@@ -5,12 +5,19 @@ description = ""
 authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
-python = "~3.7"
-# molecule = "~2.22" # matches ansible 2.7
-docker = "^4.3.1"
-molecule = "*"
-# ansible = "~2.7"
-# ansible = "*"
+python = "^3.7"
+jinja2 = "^2.10"
+ansible = "~2.7"
+molecule = "^2.22" # depends on the version of ansible
+pyyaml = "^5.1"
+cryptography = "^2.7"
+boto = ">= 2.49"
+boto3 = ">= 1.10"
+netaddr = ">= 0.7"
+jmespath = ">= 0.9.4"
+"ruamel.yaml" = ">= 0.15.96"
+awscli = ">= 1.16.303"
+"docker-py" = "^1.10"
 
 [tool.poetry.dev-dependencies]
 
