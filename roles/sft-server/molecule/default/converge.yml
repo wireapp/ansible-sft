@@ -2,7 +2,7 @@
 - name: Converge
   hosts: all
   vars:
-    sft_fqdn: sft-integration1.sft.zinfra.io
+    sft_fqdn: "sft-integration-{{ 1000 | random }}.sft.zinfra.io"
     certbot_account_email: certificates+integration@wire.com
   tasks:
     - name: "Include sft-server"
