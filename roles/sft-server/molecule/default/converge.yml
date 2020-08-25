@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    sft_fqdn: sft-integration1.sft.zinfra.io
+    certbot_account_email: certificates+integration@wire.com
+  tasks:
+    - name: "Include sft-server"
+      include_role:
+        name: "sft-server"
