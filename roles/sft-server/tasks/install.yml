@@ -1,31 +1,11 @@
-# TODO: Review asset download once the SFT is made public
-- name: copying SFT artifact
-  copy:
-    src: "{{ sft_artifact_file_path }}"
+
+# FUTUREWORK: consistency: rename sft_ variables to sftd_ (currently some things are named sft and other sftd which is confusing)
+#
+- name: download SFTD artifact
+  get_url:
+    url: "{{ sft_artifact_file_url }}"
     dest: "{{ sft_artifact_target_path }}"
-  when:
-    - sft_artifact_file_path is defined
-
-# - name: downloading SFT artifact by version
-#   # get_url
-#   debug:
-#     msg: "TODO"
-#   when:
-#     - sft_version is defined
-#     - sft_artifact_file_path is not defined
-#     - sft_artifact_file_url is not defined
-#     - sft_artifact_checksum is not defined
-
-# - name: downloading SFT artifact by URL
-#   # get_url
-#   debug:
-#     msg: "TODO"
-#   when:
-#     - sft_artifact_file_url is defined
-#     - sft_artifact_checksum is defined
-#     - sft_artifact_file_path is not defined
-#     - sft_version is not defined
-
+    # sha256sum:
 
 - name: unpacking artifact
   unarchive:

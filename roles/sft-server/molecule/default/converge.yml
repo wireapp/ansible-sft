@@ -4,6 +4,7 @@
   vars:
     sft_fqdn: "sft-integration-{{ 1000 | random }}.sft.zinfra.io"
     certbot_account_email: certificates+integration@wire.com
+    sft_artifact_file_url: https://s3-eu-west-1.amazonaws.com/public.wire.com/artifacts/sftd_dynamic_ubuntu18_master_48.tar.gz
   tasks:
     - name: "Include sft-server"
       include_role:

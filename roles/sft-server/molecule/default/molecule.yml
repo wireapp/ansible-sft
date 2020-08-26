@@ -10,7 +10,7 @@ dependency:
 driver:
   name: hetznercloud
 platforms:
-  - name: instance
+  - name: "molecule-hetznercloud-${INSTANCE_UUID}"
     server_type: cx11
     image: ubuntu-18.04
 provisioner:
