@@ -24,6 +24,8 @@ jobs:
         run: |
           curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3
           source $HOME/.poetry/env
+          python --version
+          python3 --version
           cd nix && poetry install
       - name: Test with molecule
         run: |
