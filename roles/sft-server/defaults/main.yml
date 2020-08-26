@@ -58,6 +58,12 @@ sft_unsupported_client_versions: []     # each client version is supported
 #  - '<5.2.10'
 #  - '6.1.3'
 
+# NOTE: for debugging purposes it might be desired to prevent log suppression
+# INFO: The systemd options for this behaviour are only supported from systemd v240 onward;
+#       if an older version is being used, the desired behaviour can be achieved by setting
+#       https://www.freedesktop.org/software/systemd/man/journald.conf.html#RateLimitIntervalSec=
+sft_prevent_log_suppression: false
+
 metrics_enabled: false
 
 certbot_enabled: true   # implies automated renewal
