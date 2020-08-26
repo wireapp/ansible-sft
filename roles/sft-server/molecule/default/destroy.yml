@@ -1,0 +1,30 @@
+- name: Destroy DNS record
+  hosts: localhost
+  vars:
+    sft_root_domain: "wire.link"
+    molecule_instance_id: "{{ lookup('env', 'INSTANCE_UUID') }}"
+    sft_fqdn: "sft-integration-{{ molecule_instance_id }}.sft.{{ sft_root_domain }}"
+  tasks:
+    # Normally we assume DNS to be created externally-to-ansible.
+    #
+    # But molecule tests will create (and destroy) their own DNS.
+    # Here, we remove the DNS record created in 'create.yml'
+    - name: Get information about DNS
+      route53:
+        state: get
+        zone: "{{ sft_root_domain }}"
+        record: "{{ sft_fqdn }}"
+        type: A
+      register: rec
+
+    - debug: var=rec
+
+    - name: Remove A record
+      route53:
+        state: absent
+        zone: "{{ sft_root_domain }}"
+        record: "{{ rec.set.record }}"
+        type: "{{ rec.set.type }}"
+        value: "{{ rec.set.value }}"
+        ttl: "{{ rec.set.ttl }}"
+      when: rec.set
