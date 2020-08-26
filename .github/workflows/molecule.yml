@@ -29,5 +29,6 @@ jobs:
       - name: Test with molecule
         run: |
           cd roles/sft-server
+          source $HOME/.poetry/env
           poetry run molecule list
           poetry run molecule lint
