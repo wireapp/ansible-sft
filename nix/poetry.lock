@@ -52,9 +52,6 @@ optional = false
 python-versions = ">=2.7"
 version = "1.3.2"
 
-[package.dependencies]
-setuptools = "*"
-
 [[package]]
 category = "main"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -168,7 +165,6 @@ test = ["pytest (>=3.6.0,<3.9.0 || >3.9.0,<3.9.1 || >3.9.1,<3.9.2 || >3.9.2)", "
 [[package]]
 category = "main"
 description = "Distro - an OS platform information API"
-marker = "sys_platform == \"linux\" or sys_platform == \"linux2\""
 name = "distro"
 optional = false
 python-versions = "*"
@@ -221,7 +217,6 @@ version = "2.10"
 [[package]]
 category = "main"
 description = "Read metadata from Python packages"
-marker = "python_version < \"3.8\""
 name = "importlib-metadata"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
@@ -290,11 +285,11 @@ paramiko = ">=2.5.0,<3"
 pexpect = ">=4.6.0,<5"
 pluggy = ">=0.7.1,<1.0"
 python-gilt = ">=1.2.1,<2"
-selinux = "*"
 sh = ">=1.13.1,<1.14"
 tabulate = ">=0.8.4"
 tree-format = ">=0.1.2"
 yamllint = ">=1.15.0,<2"
+selinux = {version = "*", markers = "sys_platform == \"linux\" or sys_platform == \"linux2\""}
 
 [package.extras]
 docker = ["docker (>=2.0.0)"]
@@ -374,9 +369,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "0.13.1"
 
 [package.dependencies]
-[package.dependencies.importlib-metadata]
-python = "<3.8"
-version = ">=0.12"
+importlib-metadata = {version = ">=0.12", markers = "python_version < \"3.8\""}
 
 [package.extras]
 dev = ["pre-commit", "tox"]
@@ -493,7 +486,6 @@ socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7)", "win-inet-pton"]
 [[package]]
 category = "main"
 description = "shim selinux module"
-marker = "sys_platform == \"linux\" or sys_platform == \"linux2\""
 name = "selinux"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,>=2.7"
@@ -501,7 +493,6 @@ version = "0.2.1"
 
 [package.dependencies]
 distro = ">=1.3.0"
-setuptools = ">=39.0"
 
 [[package]]
 category = "main"
@@ -585,7 +576,6 @@ pyyaml = "*"
 [[package]]
 category = "main"
 description = "Backport of pathlib-compatible object wrapper for zip files"
-marker = "python_version < \"3.8\""
 name = "zipp"
 optional = false
 python-versions = ">=3.6"
@@ -597,7 +587,7 @@ testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
 content-hash = "f7cddee68814defa4d53f0b27c90a011b39373353783628f4dba7d94b119c949"
-lock-version = "1.0"
+lock-version = "1.1"
 python-versions = ">=3.6, <3.10"
 
 [metadata.files]

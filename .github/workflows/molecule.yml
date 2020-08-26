@@ -23,7 +23,8 @@ jobs:
       - name: Install dependencies
         run: |
           set -x
-          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3
+          # Use poetry-1.1.0b2 due to https://github.com/python-poetry/poetry/issues/2769
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_VERSION=1.1.0b2 python3
           python --version
           python3 --version
           source $HOME/.poetry/env
