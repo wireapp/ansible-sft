@@ -7,6 +7,7 @@ authors = ["Your Name <you@example.com>"]
 [tool.poetry.dependencies]
 python = ">=3.6, <3.10"
 "molecule-hetznercloud" = ">= 0.2.2"
+netaddr = "*"
 # pyyaml = ">= 5.1"
 # cryptography = ">= 2.7"
 # boto = ">= 2.49"
