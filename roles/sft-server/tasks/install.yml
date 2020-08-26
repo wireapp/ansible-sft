@@ -6,26 +6,14 @@
   when:
     - sft_artifact_file_path is defined
 
-# - name: downloading SFT artifact by version
-#   # get_url
-#   debug:
-#     msg: "TODO"
-#   when:
-#     - sft_version is defined
-#     - sft_artifact_file_path is not defined
-#     - sft_artifact_file_url is not defined
-#     - sft_artifact_checksum is not defined
-
-# - name: downloading SFT artifact by URL
-#   # get_url
-#   debug:
-#     msg: "TODO"
-#   when:
-#     - sft_artifact_file_url is defined
-#     - sft_artifact_checksum is defined
-#     - sft_artifact_file_path is not defined
-#     - sft_version is not defined
-
+- name: download SFT artifact
+  get_url:
+    url: "{{ sft_artifact_file_url }}"
+    dest: "{{ sft_artifact_target_path }}"
+    # FUTUREWORK: check sha256sum
+    # sha256sum: "{{ sft_artifact_checksum | default(omit) }}"
+  when:
+    - sft_artifact_file_url is defined
 
 - name: unpacking artifact
   unarchive:
