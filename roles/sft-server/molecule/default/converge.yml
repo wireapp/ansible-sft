@@ -1,14 +1,9 @@
 ---
 - name: Converge
   hosts: all
-  vars:
-    sft_nginx_dh_keysize: 1024 # override this for molecule tests only
-    sft_root_domain: "wire.link"
-    molecule_instance_id: "{{ lookup('env', 'INSTANCE_UUID') }}"
-    sft_fqdn: "sft-integration-{{ molecule_instance_id }}.sft.{{ sft_root_domain }}"
-    certbot_account_email: certificates+integration@wire.com
-    sft_artifact_file_url: https://s3-eu-west-1.amazonaws.com/public.wire.com/artifacts/sftd_dynamic_ubuntu18_master_48.tar.gz
   tasks:
+    - name: include molecule variables
+      include_vars: shared_vars.yml
 
     - debug: var=sft_fqdn
 
