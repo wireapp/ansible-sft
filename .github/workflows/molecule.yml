@@ -28,6 +28,6 @@ jobs:
           cd nix && poetry install
       - name: Test with molecule
         run: |
-          cd roles/ansible-sft
+          cd roles/sft-server
           poetry run molecule list
           poetry run molecule lint
