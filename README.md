@@ -30,6 +30,8 @@ Ensure you have hetzner cloud credentials:
 env | grep HCLOUD_TOKEN > /dev/null || echo "[ERROR] Missing HCLOUD_TOKEN" && exit 1
 ```
 
+At the moment, you also need AWS credentials in order to create DNS records. FUTUREWORK: remove dependency on AWS credentials.
+
 To start with, create a random number for your server (to avoid name clashes), and cd to the right directory:
 
 ```
