@@ -25,6 +25,12 @@
 # tls_key_path: String
 # tls_cert_path: String
 
+# FUTUREWORK: consistency: rename sft_ variables to sftd_ (currently some things
+# are named sft and others sftd which is confusing).
+#
+# FUTUREWORK: adhere to naming best practices: rename all variables to have a
+# prefix (like sft_ or sftd_) in order not to clash with other roles which may
+# also have a `metrics_enabled`.
 
 service_name: "{{ role_name }}"
 
@@ -67,3 +73,6 @@ systemd_coredump_enabled: true
 
 # NOTE: set reasonable high, while in reality still being limited by total memory size; set to 0 in order to disable
 systemd_coredump_max_file_size: '4G'
+
+# diffie-hellman keysize for nginx
+sft_nginx_dh_keysize: 4096
