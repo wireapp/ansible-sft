@@ -1,0 +1,39 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    sft_nginx_dh_keysize: 1024 # override this for molecule tests only
+    sft_root_domain: "wire.link"
+    molecule_instance_id: "{{ lookup('env', 'INSTANCE_UUID') }}"
+    sft_fqdn: "sft-integration-{{ molecule_instance_id }}.sft.{{ sft_root_domain }}"
+    certbot_account_email: certificates+integration@wire.com
+    sft_artifact_file_url: https://s3-eu-west-1.amazonaws.com/public.wire.com/artifacts/sftd_dynamic_ubuntu18_master_48.tar.gz
+  tasks:
+
+    - debug: var=sft_fqdn
+
+    - name: check INSTANCE_UUID is set
+      assert:
+        that:
+          - molecule_instance_id != ""
+        msg: >
+          [ERR] Please run:
+            export INSTANCE_UUID=$RANDOM
+          then re-run this playbook.
+
+    # Normally we assume DNS to be created externally-to-ansible.
+    # Here, we create a DNS record using ansible only for molecule tests.
+    - name: A records
+      route53:
+        command:   create
+        zone:      "{{ sft_root_domain }}"
+        record:    "{{ sft_fqdn }}"
+        type:      A
+        ttl:       60
+        value:     "{{ hostvars[groups['all'][0]].ansible_default_ipv4.address }}"
+        overwrite: yes
+      delegate_to: localhost
+
+    - name: "Include sft-server"
+      include_role:
+        name: "sft-server"
