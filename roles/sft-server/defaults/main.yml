@@ -67,3 +67,6 @@ systemd_coredump_enabled: true
 
 # NOTE: set reasonable high, while in reality still being limited by total memory size; set to 0 in order to disable
 systemd_coredump_max_file_size: '4G'
+
+# diffie-hellman keysize for nginx
+sft_nginx_dh_keysize: 4096

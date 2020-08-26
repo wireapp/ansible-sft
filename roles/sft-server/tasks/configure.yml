@@ -147,7 +147,7 @@
 - name: 'generating DH parameters for SFT nginx vhost (NOTE: This is going to take a long time)'
   openssl_dhparam:
     path: "{{ nginx_dhparams_path }}"
-    size: 4096
+    size: "{{ sft_nginx_dh_keysize }}"
     owner: root
     group: root
     mode: '644'
