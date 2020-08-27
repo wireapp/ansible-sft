@@ -3,6 +3,6 @@
 #
 - name: ensuring that the state of systemd service unit(es) is consistent
   file:
-    dest: "/etc/systemd/system/{{ service_name }}.{{ item.key }}.service"
+    dest: "/etc/systemd/system/{{ srv_announcer_service_name }}.{{ item.key }}.service"
     state: "{{ 'absent' if (item.value.deprecated | default(False)) else 'file' }}"
-  loop: "{{ announcer_srv_records | dict2items }}"
+  loop: "{{ srv_announcer_srv_records | dict2items }}"

@@ -1,6 +1,6 @@
-- name: starting service(s) - {{ service_name }}
+- name: starting service(s) - {{ srv_announcer_service_name }}
   systemd:
-    name: "{{ service_name }}.{{ item.item.key }}"
+    name: "{{ srv_announcer_service_name }}.{{ item.item.key }}"
     enabled: yes
     state: >-
       {{
@@ -16,11 +16,11 @@
   when: (item.item.value.deprecated | default(False)) == False
   loop: "{{ units_srva.results }}"
 
-- name: stopping service(s) - {{ service_name }}
+- name: stopping service(s) - {{ srv_announcer_service_name }}
   systemd:
-    name: "{{ service_name }}.{{ item.key }}"
+    name: "{{ srv_announcer_service_name }}.{{ item.key }}"
     enabled: no
     state: stopped
     daemon_reload: no
   when: item.value.deprecated is defined and (item.value.deprecated | bool) == True
-  loop: "{{ announcer_srv_records | dict2items }}"
+  loop: "{{ srv_announcer_srv_records | dict2items }}"
