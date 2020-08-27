@@ -7,3 +7,5 @@ sft_fqdn: "sft-integration-{{ molecule_instance_id }}.sft.{{ sft_root_domain }}"
 sft_nginx_dh_keysize: 1024
 certbot_account_email: certificates+integration@wire.com
 sft_artifact_file_url: https://s3-eu-west-1.amazonaws.com/public.wire.com/artifacts/sftd_dynamic_ubuntu18_master_48.tar.gz
+certbot_in_test_mode: true
+
