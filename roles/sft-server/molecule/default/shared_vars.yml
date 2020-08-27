@@ -1,5 +1,7 @@
 # shared variables for molecule tests
-sft_root_domain: "wire.link"
+#
+# This is a special zone created for CI
+sft_root_domain: "backend-ci.wire.link"
 molecule_instance_id: "{{ lookup('env', 'INSTANCE_UUID') }}"
 sft_fqdn: "sft-integration-{{ molecule_instance_id }}.sft.{{ sft_root_domain }}"
 sft_nginx_dh_keysize: 1024
