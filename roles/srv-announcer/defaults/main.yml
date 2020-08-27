@@ -6,21 +6,21 @@
 # There are three different ways to define which version is going to be installed.
 # All of them are mutual exclusive.
 # 1.
-# announce_artifact_file_path: local path in filesystem
+# srv_announcer_artifact_file_path: local path in filesystem
 #
 # 2.
-# announcer_version: string of a specific release version
+# srv_announcer_version: string of a specific release version
 #
 # 3.
-# announce_artifact_file_url: URL
-# announce_artifact_checksum: value
+# srv_announcer_artifact_file_url: URL
+# srv_announcer_artifact_checksum: value
 
 # DOCS: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html
-# announcer_aws_key_id: String
-# announcer_aws_access_key: String
-# announcer_aws_region: String
+# srv_announcer_aws_key_id: String
+# srv_announcer_aws_access_key: String
+# srv_announcer_aws_region: String
 
-# announcer_zone_domain: String, e.g. domain.tld
+# srv_announcer_zone_domain: String, e.g. domain.tld
 
 # NOTE: The srv-announcer can only manage one entry in the SRV record list, but the role allows
 #       to define multiple entries. For each entry a new systemd unit is created. To also
@@ -37,15 +37,15 @@
 #    target: monitoring.sub.domain.tld
 #    deprecated: true
 # ```
-announcer_srv_records: {}
+srv_announcer_srv_records: {}
 
 
 # INFO: The following variables are NOT mandatory and won't be tested for existence
 
 # NOTE: in seconds
-announcer_record_ttl: 60
+srv_announcer_record_ttl: 60
 # NOTE: relative values
-announcer_record_priority: 10
-announcer_record_weight: 10
+srv_announcer_record_priority: 10
+srv_announcer_record_weight: 10
 
-announcer_record_port: 443
+srv_announcer_record_port: 443

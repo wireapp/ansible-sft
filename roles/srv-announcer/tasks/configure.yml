@@ -1,7 +1,7 @@
 - name: creating srv-announcer configuration path
   file:
     state: directory
-    path: "{{ announcer_configuration_path }}"
+    path: "{{ srv_announcer_configuration_path }}"
     owner: root
     group: root
     mode: '755'
@@ -9,7 +9,7 @@
 - name: copying credentials configuration file for systemd service unit(es)
   template:
     src: 'srv-announcer.env.j2'
-    dest: "{{ announcer_environment_variables_path }}"
+    dest: "{{ srv_announcer_environment_variables_path }}"
     owner: root
     group: root
     mode: '600'
@@ -18,9 +18,9 @@
 - name: copying systemd service unit(es) to announce SRV record(s)
   template:
     src: 'srv-announcer.service.j2'
-    dest: "/etc/systemd/system/{{ service_name }}.{{ item.key }}.service"
+    dest: "/etc/systemd/system/{{ srv_announcer_service_name }}.{{ item.key }}.service"
     owner: root
     group: root
     mode: '644'
-  loop: "{{ announcer_srv_records | dict2items }}"
+  loop: "{{ srv_announcer_srv_records | dict2items }}"
   register: units_srva

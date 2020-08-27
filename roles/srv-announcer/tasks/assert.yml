@@ -1,13 +1,13 @@
 - name: verifying if all required variables for the srv-announcer are set
   assert:
     that:
-      - announcer_zone_domain is defined
-    msg: '[ERR] Variable not set: announcer_zone_domain'
+      - srv_announcer_zone_domain is defined
+    msg: '[ERR] Variable not set: srv_announcer_zone_domain'
 
 - name: verifying if all required variables for the AWS client are set
   assert:
     that:
-      - announcer_aws_key_id is defined
-      - announcer_aws_access_key is defined
-      - announcer_aws_region is defined
-    msg: '[ERR] Variable not set: announcer_aws_*'
+      - srv_announcer_aws_key_id is defined
+      - srv_announcer_aws_access_key is defined
+      - srv_announcer_aws_region is defined
+    msg: '[ERR] Variable not set: srv_announcer_aws_*'
