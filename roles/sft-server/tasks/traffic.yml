@@ -21,6 +21,7 @@
   loop:
     - '80'
     - '443'
+    - '8443'
 
 - name: allowing SSH ingress
   ufw:
@@ -29,7 +30,6 @@
     direction: in
     to_port: '22'
     state: reloaded
-
 
 - name: allowing SFT media ingress
   ufw:
@@ -47,7 +47,6 @@
     from_port: "{{ sftd_udp_port_range_start }}:{{ sftd_udp_port_range_end }}"
     state: reloaded
 
-
 - name: configuring SFT nginx vhost
   template:
     src: 'sftd.vhost.conf.j2'
@@ -55,12 +54,15 @@
     owner: root
     group: root
     mode: '644'
-  register: ingress_sftd
+  notify:
+    - nginx configuration changed
 
-- name: reloading nginx to expose sftd
-  systemd:
-    name: 'nginx'
-    enabled: yes
-    state: reloaded
-  when:
-    - ingress_sftd.changed
+- name: configuring metrics nginx vhost
+  template:
+    src: 'metrics.vhost.conf.j2'
+    dest: "{{ nginx_conf_dir }}/metrics.conf"
+    owner: root
+    group: root
+    mode: '644'
+  notify:
+    - nginx configuration changed

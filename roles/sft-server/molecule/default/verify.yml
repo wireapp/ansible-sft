@@ -2,8 +2,33 @@
 # This is an example playbook to execute Ansible tests.
 
 - name: Verify
-  hosts: all
+  hosts: localhost
   tasks:
-  - name: Example assertion
-    assert:
-      that: true
+    - name: include molecule variables
+      include_vars: shared_vars.yml
+
+    # TODO: Make this return 200, 400 is good enough to verify that the request
+    # is forwarded _somewhere_.
+    - name: SFTD is accessible
+      uri:
+        url: "https://{{ sft_fqdn }}"
+        timeout: 10
+        validate_certs: "{{ not certbot_in_test_mode }}"
+      register: response
+      failed_when: response.status != 400
+
+    - name: SFT metrics are accessible
+      uri:
+        url: "https://{{ sft_fqdn }}:8443/metrics/sft"
+        timeout: 10
+        validate_certs: "{{ not certbot_in_test_mode }}"
+      register: response
+      failed_when: response.status != 200
+
+    - name: Node exporter metrics are accessible
+      uri:
+        url: "https://{{ sft_fqdn }}:8443/metrics/node-exporter"
+        timeout: 10
+        validate_certs: "{{ not certbot_in_test_mode }}"
+      register: response
+      failed_when: response.status != 200

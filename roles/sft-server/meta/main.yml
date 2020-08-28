@@ -16,4 +16,7 @@ galaxy_info:
   galaxy_tags:
     - SFT
 
-dependencies: []
+dependencies:
+  - role: cloudalchemy.node-exporter
+    vars:
+      node_exporter_web_listen_address: "127.0.0.1:{{ sft_node_exporter_port }}"

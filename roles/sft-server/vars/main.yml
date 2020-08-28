@@ -41,3 +41,6 @@ certbot_archive_path: "{{ certbot_conf_path }}/archive"
 
 systemd_coredump_service_conf_dir: '/etc/systemd/coredump.conf.d'
 systemd_nginx_service_conf_dir: '/etc/systemd/system/nginx.service.d'
+
+sft_node_exporter_port: 9100
+sft_node_exporter_listen: 127.0.0.1

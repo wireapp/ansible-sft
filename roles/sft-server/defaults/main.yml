@@ -64,8 +64,6 @@ sft_unsupported_client_versions: []     # each client version is supported
 #  - '<5.2.10'
 #  - '6.1.3'
 
-metrics_enabled: false
-
 certbot_enabled: true   # implies automated renewal
 certbot_in_test_mode: true
 
