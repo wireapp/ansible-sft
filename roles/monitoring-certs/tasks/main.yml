@@ -1,0 +1,56 @@
+---
+- name: Temporary file for the CA private key
+  tempfile:
+  register: ca_private_key
+- name: Download CA private key
+  aws_s3:
+    bucket: "{{ sft_metrics_ca_private_key_s3_bucket }}"
+    object: "{{ sft_metrics_ca_private_key_s3_path }}"
+    dest: "{{ ca_private_key.path }}"
+    mode: get
+  ignore_errors: yes
+  register: get_ca_private_key
+- include: ca-private-key.yml
+  when: get_ca_private_key.failed
+
+- name: Temporary file for the CA cert
+  tempfile:
+  register: ca_cert
+- name: Download CA Cert
+  aws_s3:
+    bucket: "{{ sft_metrics_ca_cert_s3_bucket }}"
+    object: "{{ sft_metrics_ca_cert_s3_path }}"
+    dest: "{{ ca_cert.path }}"
+    mode: get
+  ignore_errors: yes
+  register: get_ca_cert
+- include: ca-cert.yml
+  when: get_ca_cert.failed
+
+- name: Temporary file for client private key
+  tempfile:
+  register: client_key
+- name: Download client private key
+  aws_s3:
+    bucket: "{{ sft_metrics_client_s3_bucket }}"
+    object: "{{ sft_metrics_client_private_key_s3_path }}"
+    dest: "{{ client_key.path }}"
+    mode: get
+  ignore_errors: yes
+  register: get_client_private_key
+- include: client-private-key.yml
+  when: get_client_private_key.failed
+
+- name: Temporary file for client cert
+  tempfile:
+  register: client_cert
+- name: Download client cert
+  aws_s3:
+    bucket: "{{ sft_metrics_client_s3_bucket }}"
+    object: "{{ sft_metrics_client_cert_s3_path }}"
+    dest: "{{ client_cert.path }}"
+    mode: get
+  ignore_errors: yes
+  register: get_client_cert
+- include: client-cert.yml
+  when: get_client_cert.failed

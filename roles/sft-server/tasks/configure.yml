@@ -151,3 +151,17 @@
     owner: root
     group: root
     mode: '644'
+
+- name: create ssl certs dir
+  file:
+    path: /etc/nginx/ssl/certs
+    state: directory
+    owner: root
+    group: root
+    mode: '755'
+
+- name: download ca cert for metrics
+  get_url:
+    url: "{{ sft_metrics_ca_url }}"
+    dest: /etc/nginx/ssl/certs/metrics-ca.crt
+    mode: '400'

@@ -1,0 +1,31 @@
+- name: Temporary file for client CSR
+  tempfile:
+  register: client_csr
+- name: Create client csr
+  openssl_csr:
+    path: "{{ client_csr.path }}"
+    privatekey_path: "{{ client_key.path }}"
+    common_name: "Promteheus"
+    use_common_name_for_san: false
+    extended_key_usage:
+      - clientAuth
+
+- name: Temporary file for client cert
+  tempfile:
+  register: client_cert
+
+- name: Sign client cert
+  openssl_certificate:
+    provider: ownca
+    path: "{{ client_cert.path }}"
+    ownca_path: "{{ ca_cert.path }}"
+    ownca_privatekey_path: "{{ ca_private_key.path }}"
+    ownca_not_after: "+3650d"
+    csr_path: "{{ client_csr.path }}"
+
+- name: Upload client certificate
+  aws_s3:
+    bucket: "{{ sft_metrics_client_s3_bucket }}"
+    object: "{{ sft_metrics_client_cert_s3_path }}"
+    src: "{{ client_cert.path }}"
+    mode: put

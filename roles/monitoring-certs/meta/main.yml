@@ -1,0 +1,18 @@
+galaxy_info:
+  role_name: monitoring-certs
+  author: wireapp
+  description: Monitoring certs to be used to expose SFT metrics
+  company: Wire Swiss GmbH
+  license: AGPL
+
+  min_ansible_version: 2.7
+  github_branch: master
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - 18.04
+
+  galaxy_tags: []
+
+dependencies: []

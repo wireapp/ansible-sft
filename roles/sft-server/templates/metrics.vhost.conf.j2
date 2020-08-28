@@ -24,9 +24,11 @@ server {
     ssl_stapling on;
     ssl_stapling_verify on;
 
-
     # HSTS (in seconds)
     add_header Strict-Transport-Security "max-age=63072000" always;
+
+    ssl_client_certificate /etc/nginx/ssl/certs/metrics-ca.crt;
+    ssl_verify_client      on;
 
     location /metrics/sft {
         rewrite .* /metrics break;

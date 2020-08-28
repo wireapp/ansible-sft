@@ -1,5 +1,15 @@
 ---
-- name: Converge
+- name: Create Certs
+  hosts: localhost
+  tasks:
+    - name: include molecule variables
+      include_vars: shared_vars.yml
+
+    - name: Include monitoring-certs
+      include_role:
+        name: "monitoring-certs"
+
+- name: Provision SFT Server
   hosts: all
   tasks:
     - name: include molecule variables
@@ -29,6 +39,6 @@
         overwrite: yes
       delegate_to: localhost
 
-    - name: "Include sft-server"
+    - name: Include sft-server
       include_role:
         name: "sft-server"
