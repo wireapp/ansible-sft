@@ -1,3 +1,4 @@
 [Service]
 LimitNOFILE={{ nginx_rlimit_nofile }}
 ExecStartPre=/usr/sbin/nginx -t
+ExecReload=/usr/sbin/nginx -t
