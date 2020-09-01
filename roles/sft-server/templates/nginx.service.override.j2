@@ -1,4 +1,9 @@
 [Service]
 LimitNOFILE={{ nginx_rlimit_nofile }}
+
 ExecStartPre=/usr/sbin/nginx -t
 ExecReload=/usr/sbin/nginx -t
+
+# NOTE: defaults to 'inherit' which leads to error messages not
+#       appearing if nginx.conf is set to 'error_log: stderr'
+StandardError=journal
