@@ -1,4 +1,3 @@
----
 - name: Temporary file for the CA private key
   tempfile:
   register: ca_private_key
@@ -10,7 +9,7 @@
     mode: get
   ignore_errors: yes
   register: get_ca_private_key
-- include: ca-private-key.yml
+- import_tasks: ca-private-key.yml
   when: get_ca_private_key.failed
 
 - name: Temporary file for the CA cert
@@ -24,7 +23,7 @@
     mode: get
   ignore_errors: yes
   register: get_ca_cert
-- include: ca-cert.yml
+- import_tasks: ca-cert.yml
   when: get_ca_cert.failed
 
 - name: Temporary file for client private key
@@ -38,7 +37,7 @@
     mode: get
   ignore_errors: yes
   register: get_client_private_key
-- include: client-private-key.yml
+- import_tasks: client-private-key.yml
   when: get_client_private_key.failed
 
 - name: Temporary file for client cert
@@ -52,5 +51,5 @@
     mode: get
   ignore_errors: yes
   register: get_client_cert
-- include: client-cert.yml
+- import_tasks: client-cert.yml
   when: get_client_cert.failed
