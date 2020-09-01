@@ -1,3 +1,7 @@
+limit_req_zone "$binary_remote_addr$uri" zone=reqs_per_addr:12m rate=10r/s;
+limit_conn_zone "$binary_remote_addr$uri" zone=conns_per_addr:10m;
+
+
 server {
     server_name {{ sft_fqdn }};
 
@@ -27,6 +31,18 @@ server {
 
     # HSTS (in seconds)
     add_header Strict-Transport-Security "max-age=63072000" always;
+
+
+    # NOTE: 'Too Many Requests' (429) is returned on throttling
+    limit_req_status 429;
+    limit_conn_status 429;
+
+    # NOTE: refusal ends up as 'error' while delays will be marked as 'warn'
+    limit_req_log_level error;
+    limit_conn_log_level error;
+
+    limit_req zone=reqs_per_addr burst=20 nodelay;
+    limit_conn conns_per_addr 25;
 
 
     location / {
