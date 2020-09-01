@@ -16,12 +16,14 @@ LimitCORE=0:infinity
 
 LimitNOFILE={{ sftd_limit_nofile }}
 
+{% if sft_prevent_log_suppression | bool %}
 # NOTE: disable limit rate for logs to prevent journald from suppressing
 #       when throughput increases. It requires both to be overridden,
 #       otherwise journald would stop handling logs after the attempt
 #       to suppress for the fist time after service start
 LogRateLimitIntervalSec=0
 LogRateLimitBurst=0
+{% endif %}
 
 DynamicUser=yes
 
