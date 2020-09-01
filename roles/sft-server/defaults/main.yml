@@ -17,7 +17,7 @@
 
 # sft_fqdn: String
 
-# metrics_fqdn: String
+# sft_metrics_ca_url: URL
 
 # NOTE: either certbot is enabled or TLS files key and cert are provided
 #
