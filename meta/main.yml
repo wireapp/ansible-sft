@@ -1,0 +1,5 @@
+# NOTE: dummy file to make ansible-galaxy put the whole content under ROLES_PATH/$name,
+#       even though this is currently not a Ansible collection
+
+galaxy_info: {}
+dependencies: []
