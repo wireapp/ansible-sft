@@ -6,7 +6,7 @@
     path: "{{ client_csr.path }}"
     privatekey_path: "{{ client_key.path }}"
     common_name: "Promteheus"
-    use_common_name_for_san: false
+    # use_common_name_for_san: false #FUTUREWORK: Use this when upgrading to ansible 2.8
     extended_key_usage:
       - clientAuth
 

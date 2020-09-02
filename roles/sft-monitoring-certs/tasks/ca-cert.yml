@@ -12,7 +12,7 @@
       - keyCertSign
     basic_constraints: "CA:TRUE"
     basic_constraints_critical: true
-    use_common_name_for_san: false
+    # use_common_name_for_san: false #FUTUREWORK: Use this when upgrading to ansible 2.8
 
 - name: Sign CA Cert
   openssl_certificate:
