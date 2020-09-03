@@ -7,7 +7,7 @@
 
     - name: Include monitoring-certs
       include_role:
-        name: "monitoring-certs"
+        name: "sft-monitoring-certs"
 
 - name: Provision SFT Server
   hosts: all
