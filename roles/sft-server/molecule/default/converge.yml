@@ -2,9 +2,6 @@
 - name: Converge
   hosts: all
   tasks:
-    - name: include molecule variables
-      include_vars: shared_vars.yml
-
     - debug: var=sft_fqdn
 
     - name: check INSTANCE_UUID is set
