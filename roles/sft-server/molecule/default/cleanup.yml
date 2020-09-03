@@ -5,9 +5,6 @@
 - name: Destroy DNS record
   hosts: localhost
   tasks:
-    - name: include molecule variables
-      include_vars: shared_vars.yml
-
     - name: Get information about DNS
       route53:
         state: get
