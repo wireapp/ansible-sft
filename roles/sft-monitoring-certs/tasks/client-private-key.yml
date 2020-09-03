@@ -1,10 +1,10 @@
 - name: Create client key
   openssl_privatekey:
-    path: "{{ client_key.path }}"
+    path: "{{ workspace.path }}/client-key.pem"
 
 - name: Upload client private key
   aws_s3:
     bucket: "{{ sft_metrics_client_s3_bucket }}"
     object: "{{ sft_metrics_client_private_key_s3_path }}"
-    src: "{{ client_key.path }}"
+    src: "{{ workspace.path }}/client-key.pem"
     mode: put

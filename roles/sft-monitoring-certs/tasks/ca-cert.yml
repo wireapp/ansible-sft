@@ -1,10 +1,7 @@
-- name: Temporary file for the CA CSR
-  tempfile:
-  register: ca_csr
 - name: Create CA CSR
   openssl_csr:
-    path: "{{ ca_csr.path }}"
-    privatekey_path: "{{ ca_private_key.path }}"
+    path: "{{ workspace.path }}/ca-csr.pem"
+    privatekey_path: "{{ workspace.path }}/ca-key.pem"
     common_name: "SFT monitoring CA"
     key_usage:
       - cRLSign
@@ -17,15 +14,15 @@
 - name: Sign CA Cert
   openssl_certificate:
     provider: selfsigned
-    path: "{{ ca_cert.path }}"
-    privatekey_path: "{{ ca_private_key.path }}"
-    csr_path: "{{ ca_csr.path }}"
+    path: "{{ workspace.path }}/ca-cert.pem"
+    privatekey_path: "{{ workspace.path }}/ca-key.pem"
+    csr_path: "{{ workspace.path }}/ca-csr.pem"
     selfsigned_not_after: "+3650d"
 # This must be public so SFT servers can download it without credentials
 - name: Upload CA Cert
   aws_s3:
     bucket: "{{ sft_metrics_ca_cert_s3_bucket }}"
     object: "{{ sft_metrics_ca_cert_s3_path }}"
-    src: "{{ ca_cert.path }}"
+    src: "{{ workspace.path }}/ca-cert.pem"
     mode: put
     permission: public-read

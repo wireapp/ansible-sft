@@ -1,9 +1,9 @@
 - name: Create CA private key
   openssl_privatekey:
-    path: "{{ ca_private_key.path }}"
+    path: "{{ workspace.path }}/ca-key.pem"
 - name: Upload CA private key
   aws_s3:
     bucket: "{{ sft_metrics_ca_private_key_s3_bucket }}"
     object: "{{ sft_metrics_ca_private_key_s3_path }}"
-    src: "{{ ca_private_key.path }}"
+    src: "{{ workspace.path }}/ca-key.pem"
     mode: put
