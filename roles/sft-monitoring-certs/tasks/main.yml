@@ -11,10 +11,11 @@
     mode: get
   ignore_errors: yes
   register: get_ca_private_key
-- import_tasks: ca-private-key.yml
+- name: Create CA private key
+  import_tasks: ca-private-key.yml
   when: get_ca_private_key.failed
 
-- name: Download CA Cert
+- name: Download CA cert
   aws_s3:
     bucket: "{{ sft_metrics_ca_cert_s3_bucket }}"
     object: "{{ sft_metrics_ca_cert_s3_path }}"
@@ -22,7 +23,8 @@
     mode: get
   ignore_errors: yes
   register: get_ca_cert
-- import_tasks: ca-cert.yml
+- name: Create CA cert
+  import_tasks: ca-cert.yml
   when: get_ca_cert.failed
 
 - name: Download client private key
@@ -33,7 +35,8 @@
     mode: get
   ignore_errors: yes
   register: get_client_private_key
-- import_tasks: client-private-key.yml
+- name: Create client private key
+  import_tasks: client-private-key.yml
   when: get_client_private_key.failed
 
 - name: Download client cert
@@ -44,5 +47,6 @@
     mode: get
   ignore_errors: yes
   register: get_client_cert
-- import_tasks: client-cert.yml
+- name: Create client cert
+  import_tasks: client-cert.yml
   when: get_client_cert.failed
