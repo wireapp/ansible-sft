@@ -17,7 +17,6 @@
     path: "{{ workspace.path }}/ca-cert.pem"
     privatekey_path: "{{ workspace.path }}/ca-key.pem"
     csr_path: "{{ workspace.path }}/ca-csr.pem"
-    selfsigned_not_after: "+3650d"
 # This must be public so SFT servers can download it without credentials
 - name: Upload CA Cert
   aws_s3:

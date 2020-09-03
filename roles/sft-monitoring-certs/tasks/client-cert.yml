@@ -13,7 +13,6 @@
     path: "{{ workspace.path }}/client-cert.pem"
     ownca_path: "{{ workspace.path }}/ca-cert.pem"
     ownca_privatekey_path: "{{ workspace.path }}/ca-key.pem"
-    ownca_not_after: "+3650d"
     csr_path: "{{ workspace.path }}/client-csr.pem"
 
 - name: Upload client certificate
