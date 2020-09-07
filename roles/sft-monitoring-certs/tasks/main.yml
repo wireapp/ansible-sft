@@ -1,3 +1,6 @@
+- name: Validate variables
+  import_tasks: ./assert.yml
+
 - name: Temporary directory for operations
   tempfile:
     state: directory
