@@ -26,6 +26,6 @@
         overwrite: yes
       delegate_to: localhost
 
-    - name: "Include sft-server"
-      include_role:
+    - name: "Statically import sft-server role"
+      import_role:
         name: "sft-server"
