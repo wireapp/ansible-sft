@@ -163,5 +163,5 @@
 - name: download ca cert for metrics
   get_url:
     url: "{{ sft_metrics_ca_url }}"
-    dest: /etc/nginx/ssl/certs/metrics-ca.crt
+    dest: "{{ sft_metrics_ca_path }}"
     mode: '400'
