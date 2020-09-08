@@ -26,9 +26,9 @@
       - sft_metrics_ca_url is defined
     msg: '[ERR] Variable not set: sft_metrics_ca_url'
 
-- name: check if {{ sftd_bin_path }} exists
+- name: check if {{ sft_artifact_target_path }} exists
   stat:
-    path: '{{ sftd_bin_path }}'
+    path: '{{ sft_artifact_target_path }}'
   register: sftd_stat
   when:
     - sft_artifact_file_path is not defined
@@ -42,7 +42,7 @@
       [ERR] SFT artifact cannot be used. Please make sure either one of these is true:
         sft_artifact_file_path is defined
         sft_artifact_file_url is defined
-        {{ sftd_bin_path }} exists
+        {{ sft_artifact_target_path }} exists
   when:
     - sft_artifact_file_path is not defined
     - sft_artifact_file_url is not defined
