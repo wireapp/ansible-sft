@@ -2,11 +2,8 @@
 - name: Create Certs
   hosts: localhost
   tasks:
-    - name: include molecule variables
-      include_vars: shared_vars.yml
-
     - name: Include monitoring-certs
-      include_role:
+      import_role:
         name: "sft-monitoring-certs"
 
 - name: Provision SFT Server
