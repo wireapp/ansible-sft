@@ -1,3 +1,4 @@
+# Defaults to 10 years of validity
 - name: Create client csr
   openssl_csr:
     path: "{{ workspace.path }}/client-csr.pem"
