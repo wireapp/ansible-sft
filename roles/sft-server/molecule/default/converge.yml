@@ -12,9 +12,6 @@
 - name: Provision SFT Server
   hosts: all
   tasks:
-    - name: include molecule variables
-      include_vars: shared_vars.yml
-
     - debug: var=sft_fqdn
 
     - name: check INSTANCE_UUID is set
@@ -39,6 +36,6 @@
         overwrite: yes
       delegate_to: localhost
 
-    - name: Include sft-server
-      include_role:
+    - name: "Statically import sft-server role"
+      import_role:
         name: "sft-server"

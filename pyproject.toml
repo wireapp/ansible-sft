@@ -2,7 +2,7 @@
 name = "ansible-sft"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Wire Swiss GmbH <backend@wire.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.6, <3.10"

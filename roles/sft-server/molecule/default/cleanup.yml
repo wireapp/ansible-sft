@@ -3,11 +3,8 @@
 # But molecule tests will create their own DNS (see create.yml).
 # Here, we remove the DNS record created in 'create.yml'
 - name: Destroy DNS record
-  hosts: localhost
+  hosts: all
   tasks:
-    - name: include molecule variables
-      include_vars: shared_vars.yml
-
     - name: Get information about DNS
       route53:
         state: get
@@ -15,6 +12,7 @@
         record: "{{ sft_fqdn }}"
         type: A
       register: rec
+      delegate_to: localhost
 
     - name: Remove A record
       route53:
@@ -25,15 +23,20 @@
         value: "{{ rec.set.value }}"
         ttl: "{{ rec.set.ttl }}"
       when: rec.set
+      delegate_to: localhost
+
     - name: List certs
       aws_s3:
         mode: list
         bucket: "{{ test_s3_bucket }}"
         prefix: "{{ test_s3_base_path }}"
       register: cert_list
+      delegate_to: localhost
+
     - name: Delete certs
       aws_s3:
         mode: delobj
         bucket: "{{ test_s3_bucket }}"
         object: "{{ item }}"
       with_items: "{{ cert_list.s3_keys }}"
+      delegate_to: localhost

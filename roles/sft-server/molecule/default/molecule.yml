@@ -7,7 +7,26 @@ platforms:
   - name: "molecule-hetznercloud-${INSTANCE_UUID}"
     server_type: cx11
     image: ubuntu-18.04
+    groups:
+      - sft
 provisioner:
   name: ansible
 verifier:
   name: ansible
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      sft:
+        # FUTUREWORK: This variable could be moved to defaults/main.yml once artifact publishing is stable
+        sft_artifact_file_url: https://s3-eu-west-1.amazonaws.com/public.wire.com/artifacts/sftd_dynamic_ubuntu18_master_48.tar.gz
+
+        # This is a special zone created for CI
+        sft_root_domain: "backend-ci.wire.link"
+
+        # Overrides for molecule tests (do not use in production!)
+        certbot_in_test_mode: true
+        sft_nginx_dh_keysize: 1024
+        certbot_account_email: certificates+integration@wire.com
+        molecule_instance_id: "{{ lookup('env', 'INSTANCE_UUID') }}"
+        sft_fqdn: "sft-integration-{{ molecule_instance_id }}.sft.{{ sft_root_domain }}"
