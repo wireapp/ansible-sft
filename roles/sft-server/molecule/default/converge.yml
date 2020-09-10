@@ -1,5 +1,12 @@
 ---
-- name: Converge
+- name: Create Certs
+  hosts: localhost
+  tasks:
+    - name: Include monitoring-certs
+      import_role:
+        name: "sft-monitoring-certs"
+
+- name: Provision SFT Server
   hosts: all
   tasks:
     - debug: var=sft_fqdn

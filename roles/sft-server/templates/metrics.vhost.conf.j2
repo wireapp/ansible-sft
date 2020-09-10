@@ -1,12 +1,8 @@
-limit_req_zone "$binary_remote_addr$uri" zone=reqs_per_addr:12m rate=10r/s;
-limit_conn_zone "$binary_remote_addr$uri" zone=conns_per_addr:10m;
-
-
 server {
     server_name {{ sft_fqdn }};
 
-    listen {{ sft_nginx_sft_port }} ssl http2;
-    listen [::]:{{ sft_nginx_sft_port }} ssl http2;
+    listen {{ sft_nginx_metrics_port }} ssl http2;
+    listen [::]:{{ sft_nginx_metrics_port }} ssl http2;
 
 
     access_log  off;
@@ -28,28 +24,23 @@ server {
     ssl_stapling on;
     ssl_stapling_verify on;
 
-
     # HSTS (in seconds)
     add_header Strict-Transport-Security "max-age=63072000" always;
 
+    ssl_client_certificate {{ sft_metrics_ca_path }};
+    ssl_verify_client      on;
 
-    # NOTE: 'Too Many Requests' (429) is returned on throttling
-    limit_req_status 429;
-    limit_conn_status 429;
+    location /metrics/sft {
+        rewrite .* /metrics break;
+        proxy_pass http://127.0.0.1:{{ sftd_metrics_port }};
 
-    # NOTE: refusal ends up as 'error' while delays will be marked as 'warn'
-    limit_req_log_level error;
-    limit_conn_log_level error;
+        # NOTE: explicitly get rid of any cookie to prevent exposure to sftd
+        proxy_set_header Cookie "";
+    }
 
-    limit_req zone=reqs_per_addr burst=20 nodelay;
-    limit_conn conns_per_addr 25;
-
-
-    location / {
-        proxy_pass http://127.0.0.1:{{ sftd_signaling_port }};
-
-        # TODO: should this be open to any third party?
-        add_header Access-Control-Allow-Origin '*' always;
+    location /metrics/node-exporter {
+        rewrite .* /metrics break;
+        proxy_pass http://127.0.0.1:{{ sft_node_exporter_port }};
 
         # NOTE: explicitly get rid of any cookie to prevent exposure to sftd
         proxy_set_header Cookie "";

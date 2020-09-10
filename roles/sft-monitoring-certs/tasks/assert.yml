@@ -1,0 +1,11 @@
+- name: verifying if all required variables for SFT are set
+  assert:
+    that:
+      - sft_metrics_ca_cert_s3_bucket is defined
+      - sft_metrics_ca_cert_s3_path is defined
+      - sft_metrics_ca_private_key_s3_bucket is defined
+      - sft_metrics_ca_private_key_s3_path is defined
+      - sft_metrics_client_s3_bucket is defined
+      - sft_metrics_client_cert_s3_path is defined
+      - sft_metrics_client_private_key_s3_path is defined
+    msg: '[ERR] Required variables for sft-monitoring-certs are not set'

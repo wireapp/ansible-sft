@@ -17,7 +17,7 @@
 
 # sft_fqdn: String
 
-# metrics_fqdn: String
+# sft_metrics_ca_url: URL
 
 # NOTE: either certbot is enabled or TLS files key and cert are provided
 #
@@ -69,8 +69,6 @@ sft_unsupported_client_versions: []     # each client version is supported
 #       if an older version is being used, the desired behaviour can be achieved by setting
 #       https://www.freedesktop.org/software/systemd/man/journald.conf.html#RateLimitIntervalSec=
 sft_prevent_log_suppression: false
-
-metrics_enabled: false
 
 certbot_enabled: true   # implies automated renewal
 certbot_in_test_mode: true

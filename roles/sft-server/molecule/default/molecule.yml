@@ -17,7 +17,7 @@ provisioner:
   name: ansible
   inventory:
     group_vars:
-      sft:
+      all:
         # FUTUREWORK: This variable could be moved to defaults/main.yml once artifact publishing is stable
         sft_artifact_file_url: https://s3-eu-west-1.amazonaws.com/public.wire.com/artifacts/sftd_dynamic_ubuntu18_master_48.tar.gz
 
@@ -30,3 +30,19 @@ provisioner:
         certbot_account_email: certificates+integration@wire.com
         molecule_instance_id: "{{ lookup('env', 'INSTANCE_UUID') }}"
         sft_fqdn: "sft-integration-{{ molecule_instance_id }}.sft.{{ sft_root_domain }}"
+
+        test_s3_bucket: w-concourse
+        test_s3_bucket_region: eu-west-1
+        test_s3_base_path: "sft-test-metrics/instance-{{ molecule_instance_id }}"
+
+        sft_metrics_ca_cert_s3_bucket: "{{ test_s3_bucket }}"
+        sft_metrics_ca_cert_s3_path: "{{ test_s3_base_path }}/ca.pem"
+        sft_metrics_ca_private_key_s3_bucket: "{{ test_s3_bucket }}"
+        sft_metrics_ca_private_key_s3_path: "{{ test_s3_base_path }}/ca-key.pem"
+        sft_metrics_client_s3_bucket: "{{ test_s3_bucket }}"
+        sft_metrics_client_private_key_s3_path: "{{ test_s3_base_path }}/client-key.pem"
+        sft_metrics_client_cert_s3_path: "{{ test_s3_base_path }}/client-cert.pem"
+
+        sft_metrics_ca_url: "https://{{ sft_metrics_ca_cert_s3_bucket }}.s3-{{ test_s3_bucket_region }}.amazonaws.com/{{ sft_metrics_ca_cert_s3_path }}"
+        sft_node_exporter_port: 9200
+        certbot_in_test_mode: true

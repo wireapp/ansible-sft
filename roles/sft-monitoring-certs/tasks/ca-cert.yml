@@ -1,0 +1,28 @@
+# Defaults to 10 years of validity
+- name: Create CA CSR
+  openssl_csr:
+    path: "{{ workspace.path }}/ca-csr.pem"
+    privatekey_path: "{{ workspace.path }}/ca-key.pem"
+    common_name: "SFT monitoring CA"
+    key_usage:
+      - cRLSign
+      - digitalSignature
+      - keyCertSign
+    basic_constraints: "CA:TRUE"
+    basic_constraints_critical: true
+    # use_common_name_for_san: false #FUTUREWORK: Use this when upgrading to ansible 2.8
+
+- name: Sign CA Cert
+  openssl_certificate:
+    provider: selfsigned
+    path: "{{ workspace.path }}/ca-cert.pem"
+    privatekey_path: "{{ workspace.path }}/ca-key.pem"
+    csr_path: "{{ workspace.path }}/ca-csr.pem"
+# This must be public so SFT servers can download it without credentials
+- name: Upload CA Cert
+  aws_s3:
+    bucket: "{{ sft_metrics_ca_cert_s3_bucket }}"
+    object: "{{ sft_metrics_ca_cert_s3_path }}"
+    src: "{{ workspace.path }}/ca-cert.pem"
+    mode: put
+    permission: public-read
