@@ -9,6 +9,11 @@ ExecReload=
 ExecReload=/usr/sbin/nginx -t
 ExecReload=/usr/sbin/nginx -s reload
 
+# NOTE: this is a workaround that - as a side effect - my cause Nginx
+#       end up in an undesired state for some cases
+# ISSUE: https://bugs.launchpad.net/ubuntu/+source/nginx/+bug/1581864
+ExecStartPost=/bin/sleep 0.1
+
 # NOTE: defaults to 'inherit' which leads to error messages not
 #       appearing if nginx.conf is set to 'error_log: stderr'
 StandardError=journal
