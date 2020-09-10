@@ -55,7 +55,7 @@
     group: root
     mode: '644'
   notify:
-    - nginx configuration changed
+    - reload nginx
 
 - name: configuring metrics nginx vhost
   template:
@@ -65,4 +65,4 @@
     group: root
     mode: '644'
   notify:
-    - nginx configuration changed
+    - reload nginx
