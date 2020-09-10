@@ -1,8 +1,8 @@
 server {
     server_name {{ sft_fqdn }};
 
-    listen 8443 ssl http2;
-    listen [::]:8443 ssl http2;
+    listen {{ sft_nginx_metrics_port }} ssl http2;
+    listen [::]:{{ sft_nginx_metrics_port }} ssl http2;
 
 
     access_log  off;

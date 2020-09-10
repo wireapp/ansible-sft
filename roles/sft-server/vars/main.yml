@@ -46,3 +46,7 @@ sft_node_exporter_port: 9100
 sft_node_exporter_listen: 127.0.0.1
 
 sft_metrics_ca_path: /etc/nginx/ssl/certs/metrics-ca.crt
+
+sft_nginx_certbot_port: '80'
+sft_nginx_sft_port: '443'
+sft_nginx_metrics_port: '8443'

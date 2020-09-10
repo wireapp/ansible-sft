@@ -5,8 +5,8 @@ limit_conn_zone "$binary_remote_addr$uri" zone=conns_per_addr:10m;
 server {
     server_name {{ sft_fqdn }};
 
-    listen 443 ssl http2;
-    listen [::]:443 ssl http2;
+    listen {{ sft_nginx_sft_port }} ssl http2;
+    listen [::]:{{ sft_nginx_sft_port }} ssl http2;
 
 
     access_log  off;

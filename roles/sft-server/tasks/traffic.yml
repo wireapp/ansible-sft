@@ -19,9 +19,9 @@
     to_port: "{{ item }}"
     state: reloaded
   loop:
-    - '80'
-    - '443'
-    - '8443'
+    - '{{ sft_nginx_certbot_port }}'
+    - '{{ sft_nginx_sft_port }}'
+    - '{{ sft_nginx_metrics_port }}'
 
 - name: allowing SSH ingress
   ufw:
