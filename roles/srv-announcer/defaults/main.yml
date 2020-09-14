@@ -22,22 +22,12 @@
 
 # srv_announcer_zone_domain: String, e.g. domain.tld
 
-# NOTE: The srv-announcer can only manage one entry in the SRV record list, but the role allows
-#       to define multiple entries. For each entry a new systemd unit is created. To also
-#       facilitate the usecase of removing a certain unit file, each block allows to define the
-#       attribute `deprecated` in order to indicate a unit removal. After running a play with
-#       that attribute, the whole block can be safely removed
-# EXAMPLE:
-# ```yaml
-#  mx:
-#    name: _mx._tcp.sub.
-#    target: mx1.sub.domain.tld
-#  metrics:
-#    name: _metrics._tcp.sub.
-#    target: monitoring.sub.domain.tld
-#    deprecated: true
-# ```
-srv_announcer_srv_records: {}
+# NOTE: One srv-announcer instance can only manage one entry in the SRV record list.
+#       In order to remove the target from the record's list, one must stop the service it is
+#       announcing so that the health check that is performed by the srv-announcer recognizes
+#       its unavailability and removes the target from the list
+# srv_announcer_record_name: String
+# srv_announcer_record_target: String
 
 
 # INFO: The following variables are NOT mandatory and won't be tested for existence
