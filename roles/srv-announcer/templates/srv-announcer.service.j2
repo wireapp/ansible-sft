@@ -1,5 +1,5 @@
 [Unit]
-Description={{ srv_announcer_service_name }}.{{ item.key }} - Publish an SRV record on the DNS server
+Description={{ srv_announcer_service_name }} - Publish an SRV record on the DNS server
 
 
 After=network-online.target
@@ -16,12 +16,12 @@ EnvironmentFile={{ srv_announcer_environment_variables_path }}
 
 ExecStart={{ srv_announcer_bin_path }} \
             --zone-name '{{ srv_announcer_zone_domain }}' \
-            --srv-record-name '{{ item.value.name }}.{{ srv_announcer_zone_domain }}' \
+            --srv-record-name '{{ srv_announcer_record_name }}.{{ srv_announcer_zone_domain }}' \
             --srv-record-ttl '{{ srv_announcer_record_ttl }}' \
             --srv-record-priority '{{ srv_announcer_record_priority }}' \
             --srv-record-weight '{{ srv_announcer_record_weight }}' \
             --srv-record-port '{{ srv_announcer_record_port }}' \
-            --srv-record-target '{{ item.value.target }}' \
+            --srv-record-target '{{ srv_announcer_record_target }}' \
             --check-interval '30s' \
             --check-timeout '6s'
 
