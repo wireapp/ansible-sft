@@ -13,7 +13,7 @@
     owner: root
     group: root
     mode: '600'
-  register: unit_conf_srva
+  register: env_srv_announcer
 
 - name: copying systemd service unit to announce SRV record(s)
   template:
@@ -22,7 +22,7 @@
     owner: root
     group: root
     mode: '644'
-  register: unit_srva
+  register: unit_srv_announcer
 
 - name: copying systemd slice unit to manage SRV annoucer resources
   template:
@@ -31,4 +31,4 @@
     owner: root
     group: root
     mode: '644'
-  register: slice_srva
+  register: slice_srv_announcer

@@ -5,20 +5,20 @@
     state: >-
       {{
         'restarted' if
-          (binary_srva is defined and binary_srva.changed)
+          (binary_srv_announcer is defined and binary_srv_announcer.changed)
           or
-          (unit_srva is defined and unit_srva.changed)
+          (unit_srv_announcer is defined and unit_srv_announcer.changed)
           or
-          (unit_conf_srva is defined and unit_conf_srva.changed)
+          (env_srv_announcer is defined and binary_srv_announcer.changed)
           or
-          (slice_srva is defined and slice_srva.changed)
+          (slice_srv_announcer is defined and slice_srv_announcer.changed)
         else 'started'
       }}
     daemon_reload: >-
       {{
         'yes' if
-          (unit_srva is defined and unit_srva.changed)
+          (unit_srv_announcer is defined and unit_srv_announcer.changed)
           or
-          (slice_srva is defined and slice_srva.changed)
+          (slice_srv_announcer is defined and slice_srv_announcer.changed)
         else 'no'
       }}
