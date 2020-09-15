@@ -10,6 +10,15 @@
           (unit_srva is defined and unit_srva.changed)
           or
           (unit_conf_srva is defined and unit_conf_srva.changed)
+          or
+          (slice_srva is defined and slice_srva.changed)
         else 'started'
       }}
-    daemon_reload: "{{ 'yes' if unit_srva is defined and unit_srva.changed else 'no' }}"
+    daemon_reload: >-
+      {{
+        'yes' if
+          (unit_srva is defined and unit_srva.changed)
+          or
+          (slice_srva is defined and slice_srva.changed)
+        else 'no'
+      }}
