@@ -37,14 +37,14 @@
     src: "{{ srv_announcer_artifact_target_path }}"
     dest: '/tmp/'
     list_files: yes
-  register: unpacked
+  register: unpacked_srv_announcer
 
 - name: copying {{ srv_announcer_service_name }} executable to right location
   copy:
-    src: "{{ unpacked.dest }}{{ unpacked.files[0] }}"
+    src: "{{ unpacked_srv_announcer.dest }}{{ unpacked_srv_announcer.files[0] }}"
     remote_src: yes
     dest: "{{ srv_announcer_bin_path }}"
-  register: binary_srva
+  register: binary_srv_announcer
 
 - name: ensuring executable state
   file:
