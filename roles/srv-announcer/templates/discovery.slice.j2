@@ -1,0 +1,20 @@
+[Unit]
+Description=Reserve resources for health checking and (de-)publishing target service
+
+Before=slices.target
+
+
+[Slice]
+CPUAccounting=true
+MemoryAccounting=true
+
+# NOTE: assuming it defaults to 100 everywhere else, this ensures that
+#       even when CPU is eaten up by other processes the srv-announcer
+#       has priority
+CPUWeight=200
+
+# NOTE: give the srv-announcer enough air to breath to de-publish the
+#       target in case it is unresponsive due to resource exhaustion
+MemoryMin=64M
+# NOTE: prevent processes in this slide to swap
+MemorySwapMax=0

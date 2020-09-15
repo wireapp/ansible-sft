@@ -10,6 +10,8 @@ Wants=network-online.target
 TimeoutStartSec=4
 Restart=always
 
+Slice=discovery.slice
+
 DynamicUser=yes
 
 EnvironmentFile={{ srv_announcer_environment_variables_path }}

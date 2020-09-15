@@ -23,3 +23,12 @@
     group: root
     mode: '644'
   register: unit_srva
+
+- name: copying systemd slice unit to manage SRV annoucer resources
+  template:
+    src: 'discovery.slice.j2'
+    dest: "/etc/systemd/system/discovery.slice"
+    owner: root
+    group: root
+    mode: '644'
+  register: slice_srva
