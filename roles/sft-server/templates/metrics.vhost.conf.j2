@@ -20,9 +20,11 @@ server {
     ssl_session_cache shared:le_nginx_SSL:1m;
     ssl_session_tickets off;
 
-    # OCSP stapling
-    ssl_stapling on;
-    ssl_stapling_verify on;
+    ## OCSP stapling.
+    ## This cannot be used because prometheus fails to scrape due to a golang
+    ## bug: https://github.com/prometheus/prometheus/issues/6858
+    # ssl_stapling on;
+    # ssl_stapling_verify on;
 
     # HSTS (in seconds)
     add_header Strict-Transport-Security "max-age=63072000" always;
