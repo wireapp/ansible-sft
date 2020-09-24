@@ -64,5 +64,6 @@
     owner: root
     group: root
     mode: '644'
+  when: sft_metrics_enabled
   notify:
     - reload nginx

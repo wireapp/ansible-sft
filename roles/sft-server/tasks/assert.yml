@@ -20,11 +20,13 @@
       - tls_key_path is defined
       - tls_cert_path is defined
     msg: '[ERR] Variable(s) not set: tls_cert_path & tls_key_path'
+
 - name: verifying if all required metrics variables are set
   assert:
     that:
       - sft_metrics_ca_url is defined
     msg: '[ERR] Variable not set: sft_metrics_ca_url'
+  when: sft_metrics_enabled
 
 - name: check if {{ sft_artifact_target_path }} exists
   stat:

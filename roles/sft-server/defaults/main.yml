@@ -86,3 +86,5 @@ sft_nginx_rate_limit_enabled: true
 sft_nginx_rate_limit_requests_per_second: 100
 sft_nginx_rate_limit_burst_until: "{{ 2 * sft_nginx_rate_limit_requests_per_second }}"
 sft_nginx_rate_limit_max_connection_per_address: "{{ 3 * sft_nginx_rate_limit_burst_until }}"
+
+sft_metrics_enabled: true
