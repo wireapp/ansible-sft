@@ -2,4 +2,6 @@
 #       even though this is currently not a Ansible collection
 
 galaxy_info: {}
-dependencies: []
+dependencies:
+  - role: cloudalchemy.node-exporter
+    when: 'False'
