@@ -160,9 +160,11 @@
     owner: root
     group: root
     mode: '755'
+  when: sft_metrics_enabled
 
 - name: download ca cert for metrics
   get_url:
     url: "{{ sft_metrics_ca_url }}"
     dest: "{{ sft_metrics_ca_path }}"
     mode: '400'
+  when: sft_metrics_enabled
