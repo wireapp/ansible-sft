@@ -7,7 +7,7 @@ SFT - Selective Forwarding TURN
 
 ### About this repository
 
-THe layout of this repository is structured with a new Ansible feature in mind that is called `collection`. However, the
+The layout of this repository is structured with a new Ansible feature in mind that is called `collection`. However, the
 content only supports Ansible __2.7__ (for now). To already allow structural elements like `./roles`, some
 [workarounds](https://github.com/ansible/ansible/issues/16804) have been applied, namely an almost empty `meta/main.yml`.
 
