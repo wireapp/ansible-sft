@@ -3,15 +3,6 @@
 
 # INFO: The following variables are MANDATORY or will be tested for existence
 
-# There are three different ways to define which version is going to be installed.
-# All of them are mutual exclusive.
-# 1.
-# srv_announcer_artifact_file_path: local path in filesystem
-#
-# 2.
-# srv_announcer_version: string of a specific release version
-#
-# 3.
 # srv_announcer_artifact_file_url: URL
 # srv_announcer_artifact_checksum: value
 
