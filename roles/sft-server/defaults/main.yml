@@ -79,4 +79,4 @@ systemd_coredump_enabled: true
 systemd_coredump_max_file_size: '4G'
 
 # diffie-hellman keysize for nginx
-sft_nginx_dh_keysize: 4096
+sft_nginx_dh_keysize: 2048
