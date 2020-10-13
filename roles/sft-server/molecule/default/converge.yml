@@ -9,8 +9,6 @@
 - name: Provision SFT Server
   hosts: all
   tasks:
-    - debug: var=sft_fqdn
-
     - name: check INSTANCE_UUID is set
       assert:
         that:
@@ -36,3 +34,6 @@
     - name: "Statically import sft-server role"
       import_role:
         name: "sft-server"
+    - name: "Statically import srv-announcer role"
+      import_role:
+        name: "srv-announcer"

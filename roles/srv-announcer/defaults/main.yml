@@ -39,3 +39,6 @@ srv_announcer_record_priority: 10
 srv_announcer_record_weight: 10
 
 srv_announcer_record_port: 443
+
+# Make this inactive 6 hours prior to taking down an SFT server
+srv_announcer_active: true
