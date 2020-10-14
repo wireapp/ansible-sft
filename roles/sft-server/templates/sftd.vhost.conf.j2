@@ -1,5 +1,7 @@
-limit_req_zone "$binary_remote_addr$uri" zone=reqs_per_addr:12m rate=10r/s;
+{% if not (sft_nginx_rate_limit_disabled | bool) -%}
+limit_req_zone "$binary_remote_addr$uri" zone=reqs_per_addr:12m rate={{ sft_nginx_rate_limit_requests_per_second }}r/s;
 limit_conn_zone "$binary_remote_addr$uri" zone=conns_per_addr:10m;
+{%- endif %}
 
 
 server {
@@ -41,8 +43,10 @@ server {
     limit_req_log_level error;
     limit_conn_log_level error;
 
-    limit_req zone=reqs_per_addr burst=20 nodelay;
-    limit_conn conns_per_addr 25;
+    {% if not (sft_nginx_rate_limit_disabled | bool) -%}
+    limit_req zone=reqs_per_addr burst={{ sft_nginx_rate_limit_burst_until }} nodelay;
+    limit_conn conns_per_addr {{ sft_nginx_rate_limit_max_connection_per_address }};
+    {%- endif %}
 
 
     location / {
