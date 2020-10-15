@@ -3,17 +3,16 @@
     name: "{{ srv_announcer_service_name }}"
     enabled: yes
     state: >-
-      {{
-        'restarted' if
-          (binary_srv_announcer is defined and binary_srv_announcer.changed)
-          or
-          (unit_srv_announcer is defined and unit_srv_announcer.changed)
-          or
-          (env_srv_announcer is defined and binary_srv_announcer.changed)
-          or
-          (slice_srv_announcer is defined and slice_srv_announcer.changed)
-        else 'started'
-      }}
+      {%- if not srv_announcer_active -%}
+           stopped
+      {%- elif (binary_srv_announcer is defined and binary_srv_announcer.changed)
+              or (unit_srv_announcer is defined and unit_srv_announcer.changed)
+              or (env_srv_announcer is defined and binary_srv_announcer.changed)
+              or (slice_srv_announcer is defined and slice_srv_announcer.changed) -%}
+           restarted
+      {%- else -%}
+           started
+      {%- endif -%}
     daemon_reload: >-
       {{
         'yes' if
