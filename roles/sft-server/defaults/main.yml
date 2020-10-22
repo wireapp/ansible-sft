@@ -13,7 +13,7 @@
 #
 # 3.
 # sft_artifact_file_url: URL
-# sft_artifact_checksum: URL or values
+# sft_artifact_checksum: Same format as get_url/checksum https://docs.ansible.com/ansible/latest/collections/ansible/builtin/get_url_module.html#parameter-checksum
 
 # sft_fqdn: String
 

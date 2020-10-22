@@ -20,7 +20,7 @@ provisioner:
       all:
         # FUTUREWORK: This variable could be moved to defaults/main.yml once artifact publishing is stable
         sft_artifact_file_url: https://s3-eu-west-1.amazonaws.com/public.wire.com/artifacts/sftd_dynamic_ubuntu18_master_67.tar.gz
-        sft_artifact_checksum: b0117032b46360df72ea39c6137c2982bb6e8e7b347a903ed3969ba5e502c9c9
+        sft_artifact_checksum: sha256:b0117032b46360df72ea39c6137c2982bb6e8e7b347a903ed3969ba5e502c9c9
 
         srv_announcer_artifact_file_url: "https://github.com/wireapp/srv-announcer/releases/download/v0.2.2/srv-announcer_v0.2.2_linux-amd64.tar.gz"
         srv_announcer_artifact_checksum: "a8cfd7bd1c8afc2fb7c62df30ba77db89892a608c58c7f7122bbec3cc48a2c6b"

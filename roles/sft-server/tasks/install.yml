@@ -9,7 +9,7 @@
 - name: download SFT artifact
   get_url:
     url: "{{ sft_artifact_file_url }}"
-    checksum: "sha256:{{ sft_artifact_checksum }}"
+    checksum: "{{ sft_artifact_checksum }}"
     dest: "{{ sft_artifact_target_path }}"
   when:
     - sft_artifact_file_url is defined
