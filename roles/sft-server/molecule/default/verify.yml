@@ -1,0 +1,16 @@
+- name: Testing SFT Server
+  hosts: all
+  tasks:
+    - name: "Running sft-server role tests"
+      import_role:
+        name: "sft-server"
+        tasks_from: "test"
+
+    - name: "obtaining information on service 'node_exporter'"
+      systemd:
+        name: "node_exporter"
+      register: test_result
+    - name: "verifying that service 'node_exporter' is installed"
+      assert:
+        that: "{{ (test_result.status.LoadState == 'loaded') | bool }}"
+        msg: "service 'node_exporter' is not installed"
