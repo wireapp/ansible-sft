@@ -3,5 +3,8 @@
 
 galaxy_info: {}
 dependencies:
-  - role: cloudalchemy.node-exporter
+  - name: cloudalchemy.node-exporter
+    src: git+https://github.com/cloudalchemy/ansible-node-exporter
+    version: 0.21.5
+    # NOTE: install but dont run
     when: 'False'

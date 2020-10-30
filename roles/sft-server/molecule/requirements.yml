@@ -1,3 +1,4 @@
+# FUTUREWORK: DRY - from Ansible 2.10 onward meta/requirements.yml is supported
 - name: cloudalchemy.node-exporter
   src: git+https://github.com/cloudalchemy/ansible-node-exporter
   version: 0.21.5
