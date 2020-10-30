@@ -1,59 +1,23 @@
 ---
 dependency:
   name: galaxy
+  options:
+    role-file: "${MOLECULE_SCENARIO_DIRECTORY}/../requirements.yml"
 driver:
   name: hetznercloud
 platforms:
-  - name: "molecule-hetznercloud-${INSTANCE_UUID}"
+  - name: "molecule-hetznercloud-${MOLECULE_SCENARIO_NAME}-${INSTANCE_UUID}"
     server_type: cx11
     image: ubuntu-18.04
     groups:
       - sft
-provisioner:
-  name: ansible
 verifier:
   name: ansible
 provisioner:
   name: ansible
+  playbooks:
+    converge: ./converge.yml
+    cleanup: ./../cleanup.yml
   inventory:
-    group_vars:
-      all:
-        # FUTUREWORK: This variable could be moved to defaults/main.yml once artifact publishing is stable
-        sft_artifact_file_url: https://s3-eu-west-1.amazonaws.com/public.wire.com/artifacts/sftd_dynamic_ubuntu18_master_67.tar.gz
-        sft_artifact_checksum: sha256:b0117032b46360df72ea39c6137c2982bb6e8e7b347a903ed3969ba5e502c9c9
-
-        srv_announcer_artifact_file_url: "https://github.com/wireapp/srv-announcer/releases/download/v0.2.2/srv-announcer_v0.2.2_linux-amd64.tar.gz"
-        srv_announcer_artifact_checksum: "a8cfd7bd1c8afc2fb7c62df30ba77db89892a608c58c7f7122bbec3cc48a2c6b"
-        # This is a special zone created for CI
-        sft_root_domain: "backend-ci.wire.link"
-
-        # Overrides for molecule tests (do not use in production!)
-        certbot_in_test_mode: true
-        sft_nginx_dh_keysize: 1024
-        certbot_account_email: certificates+integration@wire.com
-        molecule_instance_id: "{{ lookup('env', 'INSTANCE_UUID') }}"
-        sft_fqdn: "sft-integration-{{ molecule_instance_id }}.sft.{{ sft_root_domain }}"
-
-        test_s3_bucket: w-concourse
-        test_s3_bucket_region: eu-west-1
-        test_s3_base_path: "sft-test-metrics/instance-{{ molecule_instance_id }}"
-
-        sft_metrics_ca_cert_s3_bucket: "{{ test_s3_bucket }}"
-        sft_metrics_ca_cert_s3_path: "{{ test_s3_base_path }}/ca.pem"
-        sft_metrics_ca_private_key_s3_bucket: "{{ test_s3_bucket }}"
-        sft_metrics_ca_private_key_s3_path: "{{ test_s3_base_path }}/ca-key.pem"
-        sft_metrics_client_s3_bucket: "{{ test_s3_bucket }}"
-        sft_metrics_client_private_key_s3_path: "{{ test_s3_base_path }}/client-key.pem"
-        sft_metrics_client_cert_s3_path: "{{ test_s3_base_path }}/client-cert.pem"
-
-        sft_metrics_ca_url: "https://{{ sft_metrics_ca_cert_s3_bucket }}.s3-{{ test_s3_bucket_region }}.amazonaws.com/{{ sft_metrics_ca_cert_s3_path }}"
-        sft_node_exporter_port: 9200
-        certbot_in_test_mode: true
-
-        srv_announcer_zone_domain: 'dummy'
-        srv_announcer_aws_key_id: 'dummy'
-        srv_announcer_aws_access_key: 'dummy'
-        srv_announcer_aws_region: 'dummy'
-        srv_announcer_record_name: 'dummy'
-        srv_announcer_record_target: 'dummy'
-        srv_announcer_active: false
+    links:
+      group_vars: ./../inventory/group_vars
