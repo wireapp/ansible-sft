@@ -20,3 +20,11 @@
   register: result
   until: result.stdout == "active"
   changed_when: false
+
+- name: "verifying that node metrics are being exposed"
+  uri:
+    url: "http://127.0.0.1:{{ sft_node_exporter_port }}/metrics"
+    timeout: 6
+  register: response
+  failed_when: response.status != 200
+  when: sft_metrics_enabled | bool
