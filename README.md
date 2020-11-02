@@ -44,26 +44,36 @@ export INSTANCE_UUID=$RANDOM
 cd roles/sft-server
 ```
 
+choose one scenario to run:
+
+```
+export SCENARIO=default
+# or
+export SCENARIO=without-metrics
+```
+
 create a server
 
 ```
-poetry run molecule create
+poetry run molecule create -s "$SCENARIO"
 ```
 
 apply the playbook from molecule/default/create.yml (run as often as you want)
 
 ```
-poetry run molecule converge
+poetry run molecule converge -s "$SCENARIO"
+
 ```
 
 destroy the server (and apply the molecule/default/destroy.yml playbook)
 
 ```
-poetry run molecule destroy
-```
-
-all of the above (create, converge, destroy)
+poetry run molecule destroy -s "$SCENARIO"
 
 ```
-poetry run molecule destroy
+
+all of the above (create, converge, idempotence, destroy)
+
+```
+poetry run molecule test
 ```
