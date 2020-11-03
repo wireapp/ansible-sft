@@ -1,23 +1,31 @@
+- name: creating temporary file
+  tempfile:
+    state: file
+  register: srv_announcer_artifact_file
+
 - name: downloading {{ srv_announcer_service_name }} artifact by URL
   get_url:
     url: "{{ srv_announcer_artifact_file_url }}"
     checksum: "{{ srv_announcer_artifact_checksum }}"
-    dest: "/tmp/srv-announcer.tar.gz"
-  when:
-    - srv_announcer_artifact_file_url is defined
-    - srv_announcer_artifact_checksum is defined
+    dest: "{{ srv_announcer_artifact_file.path }}"
+
+- name: creating temporary directory
+  tempfile:
+    state: directory
+  register: srv_announcer_artifact_destination
 
 - name: unpacking artifact
   unarchive:
     remote_src: yes
-    src: "/tmp/srv-announcer.tar.gz"
-    dest: '/tmp/'
-    list_files: yes
+    src: "{{ srv_announcer_artifact_file.path }}"
+    dest: "{{ srv_announcer_artifact_destination.path }}/"
+    extra_opts:
+      - '--strip-components=1'
   register: unpacked_srv_announcer
 
-- name: copying {{ srv_announcer_service_name }} executable to right location
+- name: copying {{ srv_announcer_service_name }} binary into the right location
   copy:
-    src: "/tmp/srv-announcer.tar.gz"
+    src: "{{ srv_announcer_artifact_destination.path }}/srv-announcer"
     remote_src: yes
     dest: "{{ srv_announcer_bin_path }}"
   register: binary_srv_announcer
