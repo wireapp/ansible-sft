@@ -4,8 +4,8 @@
 # INFO: The following variables are MANDATORY or will be tested for existence
 
 # Define which version is going to be installed.
-# srv_announcer_artifact_file_url: URL
-# srv_announcer_artifact_checksum: URL or value
+srv_announcer_artifact_file_url: https://github.com/wireapp/srv-announcer/releases/download/v0.2.2/srv-announcer_v0.2.2_linux-amd64.tar.gz
+srv_announcer_artifact_checksum: sha512:c7d26df646af90b066751109855014b1ac371b4c708f7fc4cfe344081f01e62ccc4d45ec4cab8db1904f36d61acbd85c003fae507bf186cc0e7db04f498017bd
 
 # DOCS: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html
 # srv_announcer_aws_key_id: String
