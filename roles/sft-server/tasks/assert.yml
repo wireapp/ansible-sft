@@ -21,10 +21,30 @@
       - tls_cert_path is defined
     msg: '[ERR] Variable(s) not set: tls_cert_path & tls_key_path'
 
-- name: verifying if all required variables for metrics are set
-  when:
-    - metrics_enabled | bool
+- name: verifying if all required metrics variables are set
   assert:
     that:
-      - metrics_fqdn is defined
-    msg: '[ERR] Variable not set: metrics_fqdn'
+      - sft_metrics_ca_url is defined
+    msg: '[ERR] Variable not set: sft_metrics_ca_url'
+  when: sft_metrics_enabled
+
+- name: check if {{ sft_artifact_target_path }} exists
+  stat:
+    path: '{{ sft_artifact_target_path }}'
+  register: sftd_stat
+  when:
+    - sft_artifact_file_path is not defined
+    - sft_artifact_file_url is not defined
+
+- name: verifying if sft artifact can be used
+  assert:
+    that:
+      - sftd_stat.stat.exists
+    msg: |
+      [ERR] SFT artifact cannot be used. Please make sure either one of these is true:
+        sft_artifact_file_path is defined
+        sft_artifact_file_url is defined
+        {{ sft_artifact_target_path }} exists
+  when:
+    - sft_artifact_file_path is not defined
+    - sft_artifact_file_url is not defined

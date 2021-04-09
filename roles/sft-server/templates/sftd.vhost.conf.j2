@@ -1,8 +1,14 @@
+{% if (sft_nginx_rate_limit_enabled | bool) -%}
+limit_req_zone "$binary_remote_addr$uri" zone=reqs_per_addr:12m rate={{ sft_nginx_rate_limit_requests_per_second }}r/s;
+limit_conn_zone "$binary_remote_addr$uri" zone=conns_per_addr:10m;
+{%- endif %}
+
+
 server {
     server_name {{ sft_fqdn }};
 
-    listen 443 ssl http2;
-    listen [::]:443 ssl http2;
+    listen {{ sft_nginx_sft_port }} ssl http2;
+    listen [::]:{{ sft_nginx_sft_port }} ssl http2;
 
 
     access_log  off;
@@ -29,6 +35,20 @@ server {
     add_header Strict-Transport-Security "max-age=63072000" always;
 
 
+    # NOTE: 'Too Many Requests' (429) is returned on throttling
+    limit_req_status 429;
+    limit_conn_status 429;
+
+    # NOTE: refusal ends up as 'error' while delays will be marked as 'warn'
+    limit_req_log_level error;
+    limit_conn_log_level error;
+
+    {% if (sft_nginx_rate_limit_enabled | bool) -%}
+    limit_req zone=reqs_per_addr burst={{ sft_nginx_rate_limit_burst_until }} nodelay;
+    limit_conn conns_per_addr {{ sft_nginx_rate_limit_max_connection_per_address }};
+    {%- endif %}
+
+
     location / {
         proxy_pass http://127.0.0.1:{{ sftd_signaling_port }};
 
@@ -37,11 +57,5 @@ server {
 
         # NOTE: explicitly get rid of any cookie to prevent exposure to sftd
         proxy_set_header Cookie "";
-    }
-
-
-    # NOTE: don't expose metrics for now, until we have settled on how to authenticate collectors
-    location /metrics {
-        return 404;
     }
 }

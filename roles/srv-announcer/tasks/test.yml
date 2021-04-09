@@ -1,0 +1,8 @@
+- name: "verifying that service '{{ srv_announcer_service_name }}' started successfully"
+  command: "systemctl is-active {{ srv_announcer_service_name }}"
+  retries: 6
+  delay: 2
+  register: result
+  until: result.stdout == "active"
+  changed_when: false
+  when: srv_announcer_active

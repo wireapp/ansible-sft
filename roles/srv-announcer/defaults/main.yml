@@ -1,0 +1,44 @@
+# NOTE: variables set here can - and potentially should - be overridden when invoking the role
+
+
+# INFO: The following variables are MANDATORY or will be tested for existence
+
+# There are three different ways to define which version is going to be installed.
+# All of them are mutual exclusive.
+# 1.
+# srv_announcer_artifact_file_path: local path in filesystem
+#
+# 2.
+# srv_announcer_version: string of a specific release version
+#
+# 3.
+# srv_announcer_artifact_file_url: URL
+# srv_announcer_artifact_checksum: value
+
+# DOCS: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html
+# srv_announcer_aws_key_id: String
+# srv_announcer_aws_access_key: String
+# srv_announcer_aws_region: String
+
+# srv_announcer_zone_domain: String, e.g. domain.tld
+
+# NOTE: One srv-announcer instance can only manage one entry in the SRV record list.
+#       In order to remove the target from the record's list, one must stop the service it is
+#       announcing so that the health check that is performed by the srv-announcer recognizes
+#       its unavailability and removes the target from the list
+# srv_announcer_record_name: String
+# srv_announcer_record_target: String
+
+
+# INFO: The following variables are NOT mandatory and won't be tested for existence
+
+# NOTE: in seconds
+srv_announcer_record_ttl: 60
+# NOTE: relative values
+srv_announcer_record_priority: 10
+srv_announcer_record_weight: 10
+
+srv_announcer_record_port: 443
+
+# Make this inactive 6 hours prior to taking down an SFT server
+srv_announcer_active: true

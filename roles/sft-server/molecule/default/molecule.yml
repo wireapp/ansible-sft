@@ -1,0 +1,24 @@
+---
+dependency:
+  name: galaxy
+  options:
+    role-file: "${MOLECULE_SCENARIO_DIRECTORY}/../requirements.yml"
+driver:
+  name: hetznercloud
+platforms:
+  - name: "molecule-hetznercloud-${MOLECULE_SCENARIO_NAME}-${INSTANCE_UUID}"
+    server_type: cx11
+    image: ubuntu-18.04
+    groups:
+      - sft
+verifier:
+  name: ansible
+provisioner:
+  name: ansible
+  playbooks:
+    converge: ./converge.yml
+    verify: ./verify.yml
+    cleanup: ./../cleanup.yml
+  inventory:
+    links:
+      group_vars: ./../inventory/group_vars

@@ -1,0 +1,24 @@
+# Defaults to 10 years of validity
+- name: Create client csr
+  openssl_csr:
+    path: "{{ workspace.path }}/client-csr.pem"
+    privatekey_path: "{{ workspace.path }}/client-key.pem"
+    common_name: "Promteheus"
+    # use_common_name_for_san: false #FUTUREWORK: Use this when upgrading to ansible 2.8
+    extended_key_usage:
+      - clientAuth
+
+- name: Sign client cert
+  openssl_certificate:
+    provider: ownca
+    path: "{{ workspace.path }}/client-cert.pem"
+    ownca_path: "{{ workspace.path }}/ca-cert.pem"
+    ownca_privatekey_path: "{{ workspace.path }}/ca-key.pem"
+    csr_path: "{{ workspace.path }}/client-csr.pem"
+
+- name: Upload client certificate
+  aws_s3:
+    bucket: "{{ sft_metrics_client_s3_bucket }}"
+    object: "{{ sft_metrics_client_cert_s3_path }}"
+    src: "{{ workspace.path }}/client-cert.pem"
+    mode: put

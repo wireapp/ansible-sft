@@ -13,11 +13,11 @@
 #
 # 3.
 # sft_artifact_file_url: URL
-# sft_artifact_checksum: URL or values
+# sft_artifact_checksum: Same format as get_url/checksum https://docs.ansible.com/ansible/latest/collections/ansible/builtin/get_url_module.html#parameter-checksum
 
 # sft_fqdn: String
 
-# metrics_fqdn: String
+# sft_metrics_ca_url: URL
 
 # NOTE: either certbot is enabled or TLS files key and cert are provided
 #
@@ -25,6 +25,12 @@
 # tls_key_path: String
 # tls_cert_path: String
 
+# FUTUREWORK: consistency: rename sft_ variables to sftd_ (currently some things
+# are named sft and others sftd which is confusing).
+#
+# FUTUREWORK: adhere to naming best practices: rename all variables to have a
+# prefix (like sft_ or sftd_) in order not to clash with other roles which may
+# also have a `metrics_enabled`.
 
 service_name: "{{ role_name }}"
 
@@ -58,7 +64,11 @@ sft_unsupported_client_versions: []     # each client version is supported
 #  - '<5.2.10'
 #  - '6.1.3'
 
-metrics_enabled: false
+# NOTE: for debugging purposes it might be desired to prevent log suppression
+# INFO: The systemd options for this behaviour are only supported from systemd v240 onward;
+#       if an older version is being used, the desired behaviour can be achieved by setting
+#       https://www.freedesktop.org/software/systemd/man/journald.conf.html#RateLimitIntervalSec=
+sft_prevent_log_suppression: false
 
 certbot_enabled: true   # implies automated renewal
 certbot_in_test_mode: true
@@ -67,3 +77,14 @@ systemd_coredump_enabled: true
 
 # NOTE: set reasonable high, while in reality still being limited by total memory size; set to 0 in order to disable
 systemd_coredump_max_file_size: '4G'
+
+# diffie-hellman keysize for nginx
+sft_nginx_dh_keysize: 2048
+
+# NOTE: disabling rate limit might be desired for on-prem scenarios
+sft_nginx_rate_limit_enabled: true
+sft_nginx_rate_limit_requests_per_second: 100
+sft_nginx_rate_limit_burst_until: "{{ 2 * sft_nginx_rate_limit_requests_per_second }}"
+sft_nginx_rate_limit_max_connection_per_address: "{{ 3 * sft_nginx_rate_limit_burst_until }}"
+
+sft_metrics_enabled: true

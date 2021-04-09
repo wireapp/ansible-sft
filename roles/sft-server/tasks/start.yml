@@ -2,5 +2,12 @@
   systemd:
     name: "{{ service_name }}"
     enabled: yes
-    state: "{{ 'restarted' if binary_sftd is defined and binary_sftd.changed else 'started' }}"
+    state: >-
+      {{
+        'restarted' if
+          (binary_sftd is defined and binary_sftd.changed)
+          or
+          (unit_sftd is defined and unit_sftd.changed)
+        else 'started'
+      }}
     daemon_reload: "{{ 'yes' if unit_sftd is defined and unit_sftd.changed else 'no' }}"

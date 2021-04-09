@@ -1,8 +1,8 @@
 server {
     server_name {{ sft_fqdn }};
 
-    listen 80;
-    listen [::]:80;
+    listen {{ sft_nginx_certbot_port }};
+    listen [::]:{{ sft_nginx_certbot_port }};
 
 
     location /.well-known/acme-challenge {

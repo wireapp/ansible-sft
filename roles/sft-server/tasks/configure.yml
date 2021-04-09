@@ -37,14 +37,14 @@
     group: root
     mode: '644'
   notify:
-    - nginx configuration changed
+    - reload nginx
 
 - name: deleting nginx default site
   file:
     path: "{{ nginx_conf_dir }}/default.conf"
     state: absent
   notify:
-    - nginx configuration changed
+    - reload nginx
 
 - name: creating systemd folder to override nginx service configuration
   file:
@@ -62,8 +62,7 @@
     group: root
     mode: '644'
   notify:
-    - nginx configuration changed
-
+    - reload systemd
 
 - name: creating certbot webroot path
   file:
@@ -113,6 +112,8 @@
   when:
     - certbot_enabled | bool
 
+# Cannot use verify because this needs to happen immediately
+# https://github.com/ansible/ansible/issues/10829
 - name: reloading nginx to make webroot path available
   systemd:
     name: 'nginx'
@@ -147,7 +148,23 @@
 - name: 'generating DH parameters for SFT nginx vhost (NOTE: This is going to take a long time)'
   openssl_dhparam:
     path: "{{ nginx_dhparams_path }}"
-    size: 4096
+    size: "{{ sft_nginx_dh_keysize }}"
     owner: root
     group: root
     mode: '644'
+
+- name: create ssl certs dir
+  file:
+    path: /etc/nginx/ssl/certs
+    state: directory
+    owner: root
+    group: root
+    mode: '755'
+  when: sft_metrics_enabled
+
+- name: download ca cert for metrics
+  get_url:
+    url: "{{ sft_metrics_ca_url }}"
+    dest: "{{ sft_metrics_ca_path }}"
+    mode: '400'
+  when: sft_metrics_enabled

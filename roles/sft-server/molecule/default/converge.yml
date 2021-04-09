@@ -1,0 +1,39 @@
+---
+- name: Create Certs
+  hosts: localhost
+  tasks:
+    - name: Include monitoring-certs
+      import_role:
+        name: "sft-monitoring-certs"
+
+- name: Provision SFT Server
+  hosts: all
+  tasks:
+    - name: check INSTANCE_UUID is set
+      assert:
+        that:
+          - molecule_instance_id != ""
+        msg: >
+          [ERR] Please run:
+            export INSTANCE_UUID=$RANDOM
+          then re-run this playbook.
+
+    # Normally we assume DNS to be created externally-to-ansible.
+    # Here, we create a DNS record using ansible only for molecule tests.
+    - name: A records
+      route53:
+        command:   create
+        zone:      "{{ sft_root_domain }}"
+        record:    "{{ sft_fqdn }}"
+        type:      A
+        ttl:       60
+        value:     "{{ hostvars[groups['all'][0]].ansible_default_ipv4.address }}"
+        overwrite: yes
+      delegate_to: localhost
+
+    - name: "Statically import sft-server role"
+      import_role:
+        name: "sft-server"
+    - name: "Statically import srv-announcer role"
+      import_role:
+        name: "srv-announcer"

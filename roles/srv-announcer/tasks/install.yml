@@ -1,0 +1,53 @@
+- name: copying {{ srv_announcer_service_name }} artifact
+  copy:
+    src: "{{ sft_artifact_file_path }}"
+    dest: "{{ srv_announcer_artifact_target_path }}"
+  when:
+    - srv_announcer_artifact_file_path is defined
+    - srv_announcer_version is not defined
+    - srv_announcer_artifact_file_url is not defined
+    - srv_announcer_artifact_checksum is not defined
+
+- name: downloading {{ srv_announcer_service_name }} artifact by version
+  get_url:
+    url: "{{ srv_announcer_download_base_url }}/{{ srv_announcer_artifact_basename }}.tar.gz"
+    checksum: "sha256:{{ srv_announcer_versions[ srv_announcer_version ][ srv_announcer_platform ~ '_' ~ srv_announcer_arch ] }}"
+    dest: "{{ srv_announcer_artifact_target_path }}"
+  when:
+    - srv_announcer_version is defined
+    - srv_announcer_artifact_file_path is not defined
+    - srv_announcer_artifact_file_url is not defined
+    - srv_announcer_artifact_checksum is not defined
+
+- name: downloading {{ srv_announcer_service_name }} artifact by URL
+  get_url:
+    url: "{{ srv_announcer_artifact_file_url }}"
+    checksum: "sha256:{{ srv_announcer_artifact_checksum }}"
+    dest: "{{ srv_announcer_artifact_target_path }}"
+  when:
+    - srv_announcer_artifact_file_url is defined
+    - srv_announcer_artifact_checksum is defined
+    - srv_announcer_version is not defined
+    - srv_announcer_artifact_file_path is not defined
+
+
+- name: unpacking artifact
+  unarchive:
+    remote_src: yes
+    src: "{{ srv_announcer_artifact_target_path }}"
+    dest: '/tmp/'
+    list_files: yes
+  register: unpacked_srv_announcer
+
+- name: copying {{ srv_announcer_service_name }} executable to right location
+  copy:
+    src: "{{ unpacked_srv_announcer.dest }}{{ unpacked_srv_announcer.files[0] }}"
+    remote_src: yes
+    dest: "{{ srv_announcer_bin_path }}"
+  register: binary_srv_announcer
+
+- name: ensuring executable state
+  file:
+    path: "{{ srv_announcer_bin_path }}"
+    state: 'file'
+    mode: '755'

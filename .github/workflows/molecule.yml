@@ -1,0 +1,35 @@
+name: Molecule Test
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    strategy:
+      max-parallel: 4
+      # matrix:
+      #   python-version: [3.7]
+
+    steps:
+      - uses: actions/checkout@v2
+      # - name: Set up Python ${{ matrix.python-version }}
+      #   uses: actions/setup-python@v1
+      #   with:
+      #     python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          # Use poetry-1.1.0b2 due to https://github.com/python-poetry/poetry/issues/2769
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_VERSION=1.1.0b2 python3
+          source $HOME/.poetry/env
+          poetry install
+      - name: Test with molecule
+        run: |
+          cd roles/sft-server
+          source $HOME/.poetry/env
+          # FUTUREWORK: replace this by molecule test and give credentials to CI
+          # FUTUREWORK: actually configure linting, as this currently does nothing
+          poetry run molecule lint

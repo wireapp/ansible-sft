@@ -1,0 +1,20 @@
+galaxy_info:
+  role_name: srv-announcer
+  author: wireapp
+  description: Process to announce a server via SRV DNS record
+  company: Wire Swiss GmbH
+  license: AGPL
+
+  min_ansible_version: 2.7
+  github_branch: master
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - 18.04
+
+  galaxy_tags:
+    - SRV
+    - DNS
+
+dependencies: []

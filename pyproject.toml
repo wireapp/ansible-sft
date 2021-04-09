@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "ansible-sft"
+version = "0.1.0"
+description = ""
+authors = ["Wire Swiss GmbH <backend@wire.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.6, <3.10"
+# NOTE: Molecule dependency 'molecule-hetzner' requires at least 2.8
+ansible = ">= 2.8, < 2.9"
+# NOTE: Molecule removed filter in 3.1 moving forward
+molecule = ">= 3.0.4, < 3.1"
+"molecule-hetznercloud" = ">= 0.2.2"
+netaddr = ">= 0.7"
+boto = ">= 2.49"
+boto3 = ">= 1.10"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
