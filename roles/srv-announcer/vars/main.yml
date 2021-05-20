@@ -2,20 +2,7 @@
 
 srv_announcer_service_name: "{{ role_name }}"
 
-srv_announcer_download_base_url: "https://github.com/wireapp/srv-announcer/releases/download/{{ srv_announcer_version }}"
-srv_announcer_artifact_basename: "srv-announcer_{{ srv_announcer_version }}_{{ srv_announcer_platform }}-{{ srv_announcer_arch }}"
 srv_announcer_artifact_target_path: '/tmp/srv-announcer.tar.gz'
 srv_announcer_bin_path: '/usr/local/bin/srv-announcer'
 srv_announcer_configuration_path: '/usr/local/etc/srv-announcer'
 srv_announcer_environment_variables_path: "{{ srv_announcer_configuration_path }}/credentials.env"
-
-# NOTE: no other architecture or platform supported (yet)
-srv_announcer_platform: 'linux'
-srv_announcer_arch: 'amd64'
-
-
-srv_announcer_versions:
-  v0.1.0:
-    linux_amd64: '5dda66cfa779f06495db7b6495af6456dd1c2f3da22adbb36dc8ae3c130d7c8f'
-  v0.2.0:
-    linux_amd64: 'aab5d61b682fd809a91a9649fb77a5491e8ccc68183b44b6265d9344646afd0a'
