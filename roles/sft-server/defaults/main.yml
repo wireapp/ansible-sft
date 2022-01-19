@@ -70,6 +70,12 @@ sft_unsupported_client_versions: []     # each client version is supported
 #       https://www.freedesktop.org/software/systemd/man/journald.conf.html#RateLimitIntervalSec=
 sft_prevent_log_suppression: false
 
+# Allow SFT instances to choose/consider using a TURN server for themselves as a proxy when
+# trying to establish a connection to clients
+# DOCS: https://docs.wire.com/understand/sft.html#prerequisites
+# NOTE: would make it possible to have TCP traffic only (depending on how Restund is being configured)
+sft_turn_discovery_enabled: false
+
 certbot_enabled: true   # implies automated renewal
 certbot_in_test_mode: true
 
