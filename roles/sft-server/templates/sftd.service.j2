@@ -36,7 +36,10 @@ ExecStart={{ sftd_bin_path }} \
             {% if sft_unsupported_client_versions | length > 0 -%}
             -b '{{ sft_unsupported_client_versions | map('trim') | join(',') }}' \
             {% endif -%}
-            -u 'https://{{ sft_fqdn }}'
+            {% if sft_turn_discovery_enabled -%}
+            -T \
+            {% endif -%}
+            -u 'https://{{ sft_fqdn }}:443'
 
 
 [Install]
