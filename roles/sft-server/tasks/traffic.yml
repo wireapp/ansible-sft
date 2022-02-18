@@ -20,10 +20,12 @@
     proto: tcp
     to_port: "{{ item }}"
     state: reloaded
-  loop:
-    - '{{ sft_nginx_certbot_port }}'
-    - '{{ sft_nginx_sft_port }}'
-    - '{{ sft_nginx_metrics_port }}'
+  loop: >-
+    {{
+        [ sft_nginx_sft_port ]
+      + ([ sft_nginx_certbot_port ] if certbot_enabled else [])
+      + ([ sft_nginx_metrics_port ] if sft_metrics_enabled else [])
+    }}
   when: sft_firewall_enabled
 
 - name: allowing SSH ingress
