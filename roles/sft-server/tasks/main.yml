@@ -13,6 +13,9 @@
 - name: exposing service
   import_tasks: traffic.yml
 
+- name: ensure services have (re)started
+  meta: flush_handlers
+
 # NOTE: when staring a service managed by systemd its initial state is
 #       'active' and 'running' until the start timeout has passed, so
 #       the `is-active` test requires an initial delay. Typically the
