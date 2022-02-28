@@ -89,3 +89,4 @@
     state: present
     name:
       - ufw
+  when: sft_firewall_enabled

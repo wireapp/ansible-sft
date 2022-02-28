@@ -168,3 +168,12 @@
     dest: "{{ sft_metrics_ca_path }}"
     mode: '400'
   when: sft_metrics_enabled
+
+
+- name: adjust IPv6 flag in ufw configuration if desired
+  replace:
+    path: '/etc/default/ufw'
+    regexp: '^(IPV6)=(.*)$'
+    replace: '\1={{ "yes" if sft_firewall_ipv6_enabled else "no" }}'
+  when:
+    - sft_firewall_enabled

@@ -4,6 +4,7 @@
     direction: incoming
     state: enabled
     logging: off
+  when: sft_firewall_enabled
 
 - name: allowing all egress
   ufw:
@@ -11,6 +12,7 @@
     direction: outgoing
     state: enabled
     logging: off
+  when: sft_firewall_enabled
 
 - name: allowing HTTP(S) ingress
   ufw:
@@ -18,10 +20,13 @@
     proto: tcp
     to_port: "{{ item }}"
     state: reloaded
-  loop:
-    - '{{ sft_nginx_certbot_port }}'
-    - '{{ sft_nginx_sft_port }}'
-    - '{{ sft_nginx_metrics_port }}'
+  loop: >-
+    {{
+        [ sft_nginx_sft_port ]
+      + ([ sft_nginx_certbot_port ] if certbot_enabled else [])
+      + ([ sft_nginx_metrics_port ] if sft_metrics_enabled else [])
+    }}
+  when: sft_firewall_enabled
 
 - name: allowing SSH ingress
   ufw:
@@ -30,6 +35,7 @@
     direction: in
     to_port: '22'
     state: reloaded
+  when: sft_firewall_enabled
 
 - name: allowing SFT media ingress
   ufw:
@@ -38,6 +44,7 @@
     direction: in
     to_port: "{{ sftd_udp_port_range_start }}:{{ sftd_udp_port_range_end }}"
     state: reloaded
+  when: sft_firewall_enabled
 
 - name: allowing SFT media egress
   ufw:
@@ -46,6 +53,7 @@
     direction: out
     from_port: "{{ sftd_udp_port_range_start }}:{{ sftd_udp_port_range_end }}"
     state: reloaded
+  when: sft_firewall_enabled
 
 - name: configuring SFT nginx vhost
   template:
