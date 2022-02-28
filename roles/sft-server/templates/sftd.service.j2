@@ -39,7 +39,7 @@ ExecStart={{ sftd_bin_path }} \
             {% if sft_turn_discovery_enabled -%}
             -T \
             {% endif -%}
-            -u 'https://{{ sft_fqdn }}:443'
+            -u 'https://{{ sft_fqdn }}:{{ sft_nginx_sft_port }}'
 
 
 [Install]
