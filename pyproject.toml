@@ -7,7 +7,7 @@ authors = ["Wire Swiss GmbH <backend@wire.com>"]
 [tool.poetry.dependencies]
 python = ">=3.6, <3.10"
 # NOTE: Molecule dependency 'molecule-hetzner' requires at least 2.8
-ansible = ">= 2.8, < 2.9"
+ansible = ">=2.8,<4.3"
 # NOTE: Molecule removed filter in 3.1 moving forward
 molecule = ">= 3.0.4, < 3.1"
 "molecule-hetznercloud" = ">= 0.2.2"
