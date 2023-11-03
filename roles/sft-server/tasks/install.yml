@@ -74,6 +74,7 @@
     update_cache: yes
   when:
     - certbot_enabled
+    - ansible_distribution_version is version('18.04', '==')
 
 - name: installing certbot
   apt:
