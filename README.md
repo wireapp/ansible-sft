@@ -3,7 +3,7 @@ SFT - Selective Forwarding TURN
 
 ### Prerequisites
 
-* Ubuntu 18.04
+* Ubuntu 18.04 or Ubuntu 22.04
 
 ### About this repository
 
@@ -22,12 +22,14 @@ to extend `roles_path` with a *"deep link"* pointing to the location where it wa
 
 
 ### Development setup
+Note: This is only supported on Ubuntu 18.04 based machines.
 
 * Install [poetry](https://python-poetry.org/docs/)
 * run `poetry install` anywhere inside the git checkout folder to install the current dependencies.
 * (`poetry update` can be used to re-generate the .lock file after making changes to dependencies)
 
 ### Test this role using molecule
+Note: This is only supported on Ubuntu 18.04 based machines.
 
 Ensure you have hetzner cloud credentials:
 
