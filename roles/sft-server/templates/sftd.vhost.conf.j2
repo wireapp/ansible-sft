@@ -58,7 +58,6 @@ server {
 
         # TODO: should this be open to any third party?
         add_header Access-Control-Allow-Origin '*' always;
-        add_header Content-Security-Policy "default-src $http_origin";
 
         # NOTE: explicitly get rid of any cookie to prevent exposure to sftd
         proxy_set_header Cookie "";
